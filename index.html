@@ -3,71 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgenticHealth — AI Wearable Health Monitoring &amp; Triage Support</title>
+<title>AgenticHealth â€” AI Wearable Health Monitoring &amp; Triage Support</title>
 <style>
-/* ===== RESET & BASE ===== */
+/* =====================================================
+   HOSPITAL CALM PALETTE
+   bg:        #f0f4f8  (very light blue-grey)
+   surface:   #ffffff
+   surface2:  #f7fafc
+   sidebar:   #1a3a4f  (deep hospital teal-navy)
+   topbar:    #ffffff
+   accent:    #0891b2  (clinical teal)
+   accent2:   #0e7490
+   text:      #1e3a4f
+   muted:     #64748b
+   border:    #dde5ed
+   critical:  #dc2626
+   high:      #ea580c
+   medium:    #d97706
+   low:       #16a34a
+   ibm-blue:  #0f62fe
+===================================================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:15px;scroll-behavior:smooth}
-body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f0;line-height:1.6;min-height:100vh}
-a{color:#60a5fa;text-decoration:none}
+body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;background:#f0f4f8;color:#1e3a4f;line-height:1.6;min-height:100vh}
+a{color:#0891b2;text-decoration:none}
 button{cursor:pointer;font-family:inherit;font-size:.875rem}
 input,select,textarea{font-family:inherit;font-size:.875rem}
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#1a1d27}
-::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+::-webkit-scrollbar-track{background:#e8f0f7}
+::-webkit-scrollbar-thumb{background:#b0c4d4;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#7a9bb5}
 
 /* ===== LAYOUT ===== */
 #app{display:flex;min-height:100vh}
-.sidebar{width:240px;background:#141720;border-right:1px solid #1e2535;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .25s}
-.main-content{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{background:#141720;border-bottom:1px solid #1e2535;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.sidebar{width:248px;background:#1a3a4f;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .25s;box-shadow:2px 0 12px rgba(26,58,79,.18)}
+.main-content{margin-left:248px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#ffffff;border-bottom:1px solid #dde5ed;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.06)}
 .page{padding:1.5rem;flex:1;display:none}
 .page.active{display:block}
 
 /* ===== SIDEBAR ===== */
-.sidebar-logo{padding:1rem 1.25rem;border-bottom:1px solid #1e2535;display:flex;align-items:center;gap:.6rem}
-.sidebar-logo .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.sidebar-logo .logo-text{font-weight:700;font-size:.95rem;color:#f1f5f9;letter-spacing:-.01em}
-.sidebar-logo .logo-sub{font-size:.7rem;color:#64748b}
-.sidebar-nav{flex:1;overflow-y:auto;padding:.5rem 0}
-.nav-section{padding:.5rem 1rem .25rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:600}
-.nav-item{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.25rem;color:#94a3b8;transition:all .15s;cursor:pointer;font-size:.83rem;border-left:2px solid transparent}
-.nav-item:hover{color:#e2e8f0;background:#1a1f2e}
-.nav-item.active{color:#60a5fa;background:#1a2338;border-left-color:#3b82f6}
+.sidebar-logo{padding:1.1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:.7rem}
+.sidebar-logo .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(8,145,178,.4)}
+.sidebar-logo .logo-text{font-weight:700;font-size:.98rem;color:#ffffff;letter-spacing:-.01em}
+.sidebar-logo .logo-sub{font-size:.68rem;color:#94c4d4;margin-top:.05rem}
+.sidebar-nav{flex:1;overflow-y:auto;padding:.6rem 0}
+.nav-section{padding:.6rem 1.1rem .25rem;font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:#6fa8bf;font-weight:700}
+.nav-item{display:flex;align-items:center;gap:.65rem;padding:.58rem 1.25rem;color:#b8d4df;transition:all .15s;cursor:pointer;font-size:.83rem;border-left:3px solid transparent;margin:.05rem .5rem;border-radius:0 6px 6px 0}
+.nav-item:hover{color:#ffffff;background:rgba(255,255,255,.1)}
+.nav-item.active{color:#ffffff;background:rgba(8,145,178,.3);border-left-color:#0891b2}
 .nav-item .nav-icon{width:16px;text-align:center;flex-shrink:0}
-.nav-badge{margin-left:auto;background:#ef4444;color:#fff;font-size:.65rem;padding:.1rem .4rem;border-radius:999px;font-weight:700;min-width:18px;text-align:center}
-.nav-badge.yellow{background:#f59e0b}
-.sidebar-footer{padding:.75rem 1.25rem;border-top:1px solid #1e2535;font-size:.72rem;color:#475569}
+.nav-badge{margin-left:auto;background:#dc2626;color:#fff;font-size:.63rem;padding:.1rem .42rem;border-radius:999px;font-weight:700;min-width:18px;text-align:center}
+.nav-badge.yellow{background:#d97706}
+.sidebar-footer{padding:.8rem 1.25rem;border-top:1px solid rgba(255,255,255,.1);font-size:.7rem;color:#6fa8bf}
 
 /* ===== TOPBAR ===== */
 .topbar-left{display:flex;align-items:center;gap:1rem}
-.topbar-title{font-size:.95rem;font-weight:600;color:#f1f5f9}
-.topbar-subtitle{font-size:.75rem;color:#64748b}
+.topbar-title{font-size:1rem;font-weight:700;color:#1e3a4f}
+.topbar-subtitle{font-size:.74rem;color:#64748b}
 .topbar-right{display:flex;align-items:center;gap:.75rem}
-.sim-badge{background:#1e2535;border:1px solid #334155;padding:.3rem .75rem;border-radius:6px;font-size:.72rem;color:#fbbf24;font-weight:600}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e88;animation:pulse 2s infinite}
+.sim-badge{background:#fef3c7;border:1px solid #fcd34d;padding:.3rem .8rem;border-radius:6px;font-size:.71rem;color:#92400e;font-weight:700}
+.ibm-badge{background:#dbeafe;border:1px solid #93c5fd;padding:.3rem .8rem;border-radius:6px;font-size:.71rem;color:#1d4ed8;font-weight:700;display:none}
+.ibm-badge.connected{display:inline-flex;align-items:center;gap:.3rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;box-shadow:0 0 6px rgba(22,163,74,.6);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.btn{padding:.45rem .9rem;border-radius:7px;border:none;font-weight:600;transition:all .15s;font-size:.82rem;display:inline-flex;align-items:center;gap:.4rem}
-.btn-primary{background:#3b82f6;color:#fff}
-.btn-primary:hover{background:#2563eb}
-.btn-secondary{background:#1e2535;color:#94a3b8;border:1px solid #334155}
-.btn-secondary:hover{background:#273044;color:#e2e8f0}
+.btn{padding:.45rem .95rem;border-radius:8px;border:none;font-weight:600;transition:all .15s;font-size:.82rem;display:inline-flex;align-items:center;gap:.4rem;letter-spacing:.01em}
+.btn-primary{background:#0891b2;color:#fff;box-shadow:0 1px 4px rgba(8,145,178,.3)}
+.btn-primary:hover{background:#0e7490}
+.btn-ibm{background:#0f62fe;color:#fff;box-shadow:0 1px 4px rgba(15,98,254,.3)}
+.btn-ibm:hover{background:#0043ce}
+.btn-secondary{background:#ffffff;color:#475569;border:1px solid #dde5ed}
+.btn-secondary:hover{background:#f0f4f8;color:#1e3a4f}
 .btn-success{background:#16a34a;color:#fff}
 .btn-success:hover{background:#15803d}
 .btn-danger{background:#dc2626;color:#fff}
 .btn-danger:hover{background:#b91c1c}
 .btn-warning{background:#d97706;color:#fff}
 .btn-warning:hover{background:#b45309}
-.btn-sm{padding:.3rem .65rem;font-size:.78rem}
-.btn-xs{padding:.2rem .5rem;font-size:.72rem}
-.hamburger{display:none;background:none;border:none;color:#94a3b8;font-size:1.2rem;padding:.25rem}
+.btn-sm{padding:.32rem .7rem;font-size:.78rem}
+.btn-xs{padding:.2rem .52rem;font-size:.72rem}
+.hamburger{display:none;background:none;border:none;color:#64748b;font-size:1.2rem;padding:.25rem}
 
 /* ===== CARDS ===== */
-.card{background:#1a1d27;border:1px solid #1e2535;border-radius:12px;padding:1.25rem}
+.card{background:#ffffff;border:1px solid #dde5ed;border-radius:12px;padding:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.card-title{font-size:.88rem;font-weight:600;color:#f1f5f9;display:flex;align-items:center;gap:.5rem}
+.card-title{font-size:.88rem;font-weight:700;color:#1e3a4f;display:flex;align-items:center;gap:.5rem}
 .card-sub{font-size:.75rem;color:#64748b}
 .grid{display:grid;gap:1rem}
 .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -75,163 +97,172 @@ input,select,textarea{font-family:inherit;font-size:.875rem}
 .grid-4{grid-template-columns:repeat(4,1fr)}
 
 /* ===== STATS ===== */
-.stat-card{background:#1a1d27;border:1px solid #1e2535;border-radius:12px;padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
-.stat-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.stat-icon.blue{background:#1e3a5f}
-.stat-icon.green{background:#14532d}
-.stat-icon.yellow{background:#451a03}
-.stat-icon.red{background:#450a0a}
-.stat-icon.purple{background:#2e1065}
-.stat-body .stat-val{font-size:1.6rem;font-weight:700;color:#f1f5f9;line-height:1.1}
-.stat-body .stat-lbl{font-size:.75rem;color:#64748b;margin-top:.15rem}
+.stat-card{background:#ffffff;border:1px solid #dde5ed;border-radius:12px;padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.85rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+.stat-icon.blue{background:#e0f2fe}
+.stat-icon.green{background:#dcfce7}
+.stat-icon.yellow{background:#fef9c3}
+.stat-icon.red{background:#fee2e2}
+.stat-icon.purple{background:#f3e8ff}
+.stat-icon.teal{background:#ccfbf1}
+.stat-body .stat-val{font-size:1.7rem;font-weight:800;color:#1e3a4f;line-height:1.1}
+.stat-body .stat-lbl{font-size:.75rem;color:#64748b;margin-top:.15rem;font-weight:500}
 .stat-body .stat-delta{font-size:.72rem;margin-top:.25rem}
-.delta-up{color:#22c55e}
-.delta-down{color:#ef4444}
+.delta-up{color:#16a34a}
+.delta-down{color:#dc2626}
 
 /* ===== BADGES ===== */
-.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .55rem;border-radius:5px;font-size:.72rem;font-weight:600}
-.badge-critical{background:#450a0a;color:#fca5a5;border:1px solid #991b1b}
-.badge-high{background:#451a03;color:#fed7aa;border:1px solid #9a3412}
-.badge-medium{background:#422006;color:#fde68a;border:1px solid #92400e}
-.badge-low{background:#14532d;color:#86efac;border:1px solid #166534}
-.badge-info{background:#1e3a5f;color:#93c5fd;border:1px solid #1d4ed8}
-.badge-purple{background:#2e1065;color:#c4b5fd;border:1px solid #6d28d9}
-.badge-gray{background:#1e2535;color:#94a3b8;border:1px solid #334155}
-.badge-sim{background:#1c1917;color:#fbbf24;border:1px solid #78350f;font-size:.65rem}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:5px;font-size:.71rem;font-weight:700}
+.badge-critical{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.badge-high{background:#ffedd5;color:#9a3412;border:1px solid #fdba74}
+.badge-medium{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.badge-low{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.badge-info{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd}
+.badge-purple{background:#f3e8ff;color:#6b21a8;border:1px solid #d8b4fe}
+.badge-gray{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}
+.badge-sim{background:#fef9c3;color:#854d0e;border:1px solid #fde047;font-size:.63rem}
+.badge-ibm{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd;font-size:.63rem}
 
 /* ===== PRIORITY COLORS ===== */
-.priority-critical{border-left:3px solid #ef4444}
-.priority-high{border-left:3px solid #f97316}
-.priority-medium{border-left:3px solid #eab308}
-.priority-low{border-left:3px solid #22c55e}
+.priority-critical{border-left:4px solid #dc2626}
+.priority-high{border-left:4px solid #ea580c}
+.priority-medium{border-left:4px solid #d97706}
+.priority-low{border-left:4px solid #16a34a}
 
 /* ===== PATIENT CARDS ===== */
-.patient-card{background:#1a1d27;border:1px solid #1e2535;border-radius:12px;padding:1rem;transition:all .15s;cursor:pointer}
-.patient-card:hover{border-color:#3b82f6;background:#1a2338}
-.patient-card.selected{border-color:#3b82f6;background:#1a2338}
-.patient-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
-.patient-info h4{font-size:.85rem;font-weight:600;color:#f1f5f9}
+.patient-card{background:#ffffff;border:1px solid #dde5ed;border-radius:12px;padding:1rem;transition:all .15s;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.patient-card:hover{border-color:#0891b2;box-shadow:0 3px 12px rgba(8,145,178,.12);transform:translateY(-1px)}
+.patient-card.selected{border-color:#0891b2}
+.patient-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0}
+.patient-info h4{font-size:.85rem;font-weight:700;color:#1e3a4f}
 .patient-info p{font-size:.73rem;color:#64748b}
 .vitals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.75rem}
-.vital-item{background:#0f1117;border-radius:7px;padding:.4rem .5rem;text-align:center}
-.vital-val{font-size:.85rem;font-weight:700;color:#e2e8f0}
-.vital-lbl{font-size:.62rem;color:#64748b;margin-top:.1rem}
-.vital-status-ok{color:#22c55e}
-.vital-status-warn{color:#f59e0b}
-.vital-status-alert{color:#ef4444}
+.vital-item{background:#f7fafc;border:1px solid #e8f0f7;border-radius:8px;padding:.45rem .5rem;text-align:center}
+.vital-val{font-size:.88rem;font-weight:700;color:#1e3a4f}
+.vital-lbl{font-size:.61rem;color:#64748b;margin-top:.1rem}
+.vital-status-ok{color:#16a34a}
+.vital-status-warn{color:#d97706}
+.vital-status-alert{color:#dc2626}
 
 /* ===== AGENT PIPELINE ===== */
 .agent-pipeline{display:flex;flex-direction:column;gap:.5rem}
-.agent-step{background:#141720;border:1px solid #1e2535;border-radius:10px;overflow:hidden}
+.agent-step{background:#f7fafc;border:1px solid #dde5ed;border-radius:10px;overflow:hidden}
 .agent-step-header{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;cursor:pointer;transition:background .15s}
-.agent-step-header:hover{background:#1a1f2e}
+.agent-step-header:hover{background:#e8f4f8}
 .agent-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-.agent-name{font-size:.83rem;font-weight:600;color:#f1f5f9;flex:1}
-.agent-status{font-size:.72rem;padding:.15rem .5rem;border-radius:4px}
-.agent-status.idle{background:#1e2535;color:#64748b}
-.agent-status.running{background:#1e3a5f;color:#60a5fa;animation:blink .8s infinite}
-.agent-status.done{background:#14532d;color:#86efac}
-.agent-status.warn{background:#451a03;color:#fde68a}
-.agent-status.error{background:#450a0a;color:#fca5a5}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
-.agent-body{padding:.75rem 1rem;border-top:1px solid #1e2535;display:none}
+.agent-name{font-size:.83rem;font-weight:600;color:#1e3a4f;flex:1}
+.agent-status{font-size:.71rem;padding:.15rem .55rem;border-radius:4px;font-weight:600}
+.agent-status.idle{background:#f1f5f9;color:#64748b}
+.agent-status.running{background:#dbeafe;color:#1d4ed8;animation:blink .8s infinite}
+.agent-status.done{background:#dcfce7;color:#166534}
+.agent-status.warn{background:#fef9c3;color:#854d0e}
+.agent-status.error{background:#fee2e2;color:#991b1b}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
+.agent-body{padding:.75rem 1rem;border-top:1px solid #dde5ed;display:none}
 .agent-body.open{display:block}
-.agent-output{font-size:.78rem;color:#94a3b8;line-height:1.7}
-.agent-output strong{color:#e2e8f0}
-.finding{background:#0f1117;border-radius:7px;padding:.5rem .75rem;margin:.35rem 0;font-size:.78rem;border-left:2px solid #334155}
-.finding.ok{border-left-color:#22c55e}
-.finding.warn{border-left-color:#f59e0b}
-.finding.alert{border-left-color:#ef4444}
-.finding.info{border-left-color:#3b82f6}
+.agent-output{font-size:.78rem;color:#475569;line-height:1.7}
+.agent-output strong{color:#1e3a4f}
+.finding{background:#f7fafc;border-radius:8px;padding:.55rem .8rem;margin:.35rem 0;font-size:.78rem;border-left:3px solid #dde5ed}
+.finding.ok{border-left-color:#16a34a;background:#f0fdf4}
+.finding.warn{border-left-color:#d97706;background:#fffbeb}
+.finding.alert{border-left-color:#dc2626;background:#fff5f5}
+.finding.info{border-left-color:#0891b2;background:#f0f9ff}
+
+/* ===== IBM AI PANEL ===== */
+.ibm-panel{background:linear-gradient(135deg,#eff6ff 0%,#f0f9ff 100%);border:1px solid #bfdbfe;border-radius:12px;padding:1rem;margin-top:.75rem}
+.ibm-panel-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;font-size:.82rem;font-weight:700;color:#1d4ed8}
+.ibm-response{font-size:.8rem;color:#1e3a4f;line-height:1.75;background:#ffffff;border:1px solid #dbeafe;border-radius:8px;padding:.75rem;margin-top:.5rem;white-space:pre-wrap;max-height:280px;overflow-y:auto}
+.ibm-typing::after{content:'â–Œ';animation:blink .7s infinite}
 
 /* ===== CHARTS ===== */
-.chart-container{position:relative;background:#0f1117;border-radius:8px;padding:.5rem}
+.chart-container{position:relative;background:#f7fafc;border-radius:8px;padding:.5rem;border:1px solid #e8f0f7}
 canvas{display:block;width:100%!important}
 
 /* ===== TABLE ===== */
-.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #1e2535}
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #dde5ed}
 table{width:100%;border-collapse:collapse;font-size:.8rem}
-thead th{background:#141720;color:#64748b;text-align:left;padding:.65rem .9rem;font-weight:600;font-size:.73rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #1e2535;white-space:nowrap}
-tbody tr{border-bottom:1px solid #1a1d27;transition:background .1s}
-tbody tr:hover{background:#1a1f2e}
-tbody td{padding:.6rem .9rem;color:#94a3b8;vertical-align:middle}
-tbody td strong{color:#e2e8f0}
+thead th{background:#f7fafc;color:#64748b;text-align:left;padding:.65rem .9rem;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #dde5ed;white-space:nowrap}
+tbody tr{border-bottom:1px solid #f0f4f8;transition:background .1s}
+tbody tr:hover{background:#f0f9ff}
+tbody td{padding:.6rem .9rem;color:#475569;vertical-align:middle}
+tbody td strong{color:#1e3a4f}
 
 /* ===== FORMS ===== */
-.form-group{margin-bottom:.85rem}
-.form-label{display:block;font-size:.78rem;color:#94a3b8;font-weight:600;margin-bottom:.3rem}
-.form-control{width:100%;background:#0f1117;border:1px solid #1e2535;border-radius:7px;padding:.5rem .75rem;color:#e2e8f0;transition:border-color .15s}
-.form-control:focus{outline:none;border-color:#3b82f6}
-.form-control::placeholder{color:#475569}
-select.form-control option{background:#1a1d27}
+.form-group{margin-bottom:.9rem}
+.form-label{display:block;font-size:.78rem;color:#475569;font-weight:700;margin-bottom:.3rem}
+.form-control{width:100%;background:#ffffff;border:1px solid #dde5ed;border-radius:8px;padding:.52rem .8rem;color:#1e3a4f;transition:border-color .15s;box-shadow:inset 0 1px 2px rgba(0,0,0,.04)}
+.form-control:focus{outline:none;border-color:#0891b2;box-shadow:0 0 0 3px rgba(8,145,178,.12)}
+.form-control::placeholder{color:#94a3b8}
+select.form-control option{background:#ffffff;color:#1e3a4f}
 .search-wrap{position:relative}
-.search-wrap .search-icon{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:#475569;font-size:.85rem}
-.search-wrap input{padding-left:2rem}
+.search-wrap .search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:.85rem}
+.search-wrap input{padding-left:2.1rem}
 
 /* ===== TIMELINE ===== */
 .timeline{position:relative;padding-left:1.5rem}
-.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1px;background:#1e2535}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1px;background:#dde5ed}
 .tl-item{position:relative;padding-bottom:1rem}
-.tl-item::before{content:'';position:absolute;left:-1.22rem;top:.35rem;width:9px;height:9px;border-radius:50%;background:#334155;border:2px solid #1e2535}
-.tl-item.critical::before{background:#ef4444}
-.tl-item.high::before{background:#f97316}
-.tl-item.medium::before{background:#eab308}
-.tl-item.low::before{background:#22c55e}
-.tl-item.info::before{background:#3b82f6}
-.tl-time{font-size:.68rem;color:#475569;margin-bottom:.15rem}
-.tl-text{font-size:.78rem;color:#94a3b8}
-.tl-text strong{color:#e2e8f0}
+.tl-item::before{content:'';position:absolute;left:-1.22rem;top:.35rem;width:9px;height:9px;border-radius:50%;background:#b0c4d4;border:2px solid #dde5ed}
+.tl-item.critical::before{background:#dc2626}
+.tl-item.high::before{background:#ea580c}
+.tl-item.medium::before{background:#d97706}
+.tl-item.low::before{background:#16a34a}
+.tl-item.info::before{background:#0891b2}
+.tl-item.warn::before{background:#d97706}
+.tl-time{font-size:.68rem;color:#94a3b8;margin-bottom:.15rem}
+.tl-text{font-size:.78rem;color:#475569}
+.tl-text strong{color:#1e3a4f}
 
 /* ===== MODALS ===== */
-.modal-overlay{position:fixed;inset:0;background:#00000088;z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,30,45,.55);backdrop-filter:blur(2px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal{background:#1a1d27;border:1px solid #1e2535;border-radius:14px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #1e2535}
-.modal-title{font-size:.95rem;font-weight:700;color:#f1f5f9}
-.modal-close{background:none;border:none;color:#64748b;font-size:1.2rem;line-height:1;padding:.25rem}
-.modal-close:hover{color:#f1f5f9}
+.modal{background:#ffffff;border:1px solid #dde5ed;border-radius:14px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #dde5ed;background:#f7fafc;border-radius:14px 14px 0 0}
+.modal-title{font-size:.95rem;font-weight:700;color:#1e3a4f}
+.modal-close{background:none;border:none;color:#94a3b8;font-size:1.3rem;line-height:1;padding:.25rem}
+.modal-close:hover{color:#1e3a4f}
 .modal-body{padding:1.25rem}
-.modal-footer{padding:1rem 1.25rem;border-top:1px solid #1e2535;display:flex;justify-content:flex-end;gap:.5rem}
+.modal-footer{padding:1rem 1.25rem;border-top:1px solid #dde5ed;display:flex;justify-content:flex-end;gap:.5rem;background:#f7fafc;border-radius:0 0 14px 14px}
 
 /* ===== NOTIFICATION ===== */
 .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;display:flex;flex-direction:column;gap:.5rem}
-.toast{background:#1a1d27;border:1px solid #1e2535;border-radius:9px;padding:.75rem 1rem;font-size:.8rem;color:#e2e8f0;display:flex;align-items:center;gap:.6rem;max-width:320px;animation:slideIn .2s ease;box-shadow:0 4px 20px #00000055}
-.toast.success{border-left:3px solid #22c55e}
-.toast.error{border-left:3px solid #ef4444}
-.toast.warning{border-left:3px solid #f59e0b}
-.toast.info{border-left:3px solid #3b82f6}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast{background:#ffffff;border:1px solid #dde5ed;border-radius:10px;padding:.75rem 1rem;font-size:.8rem;color:#1e3a4f;display:flex;align-items:center;gap:.6rem;max-width:320px;animation:slideIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.toast.success{border-left:3px solid #16a34a}
+.toast.error{border-left:3px solid #dc2626}
+.toast.warning{border-left:3px solid #d97706}
+.toast.info{border-left:3px solid #0891b2}
+@keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 
 /* ===== PROGRESS ===== */
-.progress-bar{height:6px;background:#1e2535;border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;border-radius:3px;transition:width .3s}
-.progress-fill.green{background:#22c55e}
-.progress-fill.yellow{background:#eab308}
-.progress-fill.orange{background:#f97316}
-.progress-fill.red{background:#ef4444}
-.progress-fill.blue{background:#3b82f6}
+.progress-bar{height:7px;background:#e8f0f7;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .35s}
+.progress-fill.green{background:#16a34a}
+.progress-fill.yellow{background:#d97706}
+.progress-fill.orange{background:#ea580c}
+.progress-fill.red{background:#dc2626}
+.progress-fill.blue{background:#0891b2}
 
 /* ===== TABS ===== */
-.tabs{display:flex;gap:.25rem;border-bottom:1px solid #1e2535;margin-bottom:1.25rem}
-.tab{padding:.55rem 1rem;font-size:.82rem;color:#64748b;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;margin-bottom:-1px;font-weight:500}
-.tab:hover{color:#e2e8f0}
-.tab.active{color:#60a5fa;border-bottom-color:#3b82f6}
+.tabs{display:flex;gap:.25rem;border-bottom:2px solid #dde5ed;margin-bottom:1.25rem}
+.tab{padding:.55rem 1.1rem;font-size:.82rem;color:#64748b;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;transition:all .15s;margin-bottom:-2px;font-weight:600}
+.tab:hover{color:#0891b2}
+.tab.active{color:#0891b2;border-bottom-color:#0891b2}
 
 /* ===== DISCLAIMER ===== */
-.disclaimer{background:#1c1108;border:1px solid #78350f;border-radius:9px;padding:.75rem 1rem;font-size:.75rem;color:#fde68a;margin-bottom:1.25rem}
-.disclaimer strong{color:#fbbf24}
+.disclaimer{background:#fffbeb;border:1px solid #fcd34d;border-radius:9px;padding:.75rem 1rem;font-size:.75rem;color:#854d0e;margin-bottom:1.25rem}
+.disclaimer strong{color:#92400e}
 
 /* ===== MISC ===== */
-.section-title{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin-bottom:.25rem}
+.section-title{font-size:1.15rem;font-weight:800;color:#1e3a4f;margin-bottom:.25rem}
 .section-sub{font-size:.8rem;color:#64748b;margin-bottom:1.25rem}
-.divider{height:1px;background:#1e2535;margin:1rem 0}
-.empty-state{text-align:center;padding:3rem 1rem;color:#475569}
+.divider{height:1px;background:#dde5ed;margin:1rem 0}
+.empty-state{text-align:center;padding:3rem 1rem;color:#94a3b8}
 .empty-state .empty-icon{font-size:2.5rem;margin-bottom:.75rem}
 .empty-state p{font-size:.85rem}
-.chip{display:inline-flex;align-items:center;gap:.25rem;background:#1e2535;border:1px solid #334155;border-radius:999px;padding:.15rem .6rem;font-size:.72rem;color:#94a3b8}
+.chip{display:inline-flex;align-items:center;gap:.25rem;background:#f0f4f8;border:1px solid #dde5ed;border-radius:999px;padding:.15rem .65rem;font-size:.71rem;color:#475569}
 .two-col{display:grid;grid-template-columns:280px 1fr;gap:1rem;align-items:start}
 .scrollable{max-height:420px;overflow-y:auto}
-.label-row{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:#94a3b8;margin-bottom:.3rem}
+.label-row{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:#475569;margin-bottom:.35rem}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
@@ -247,7 +278,7 @@ select.form-control option{background:#1a1d27}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
   .vitals-grid{grid-template-columns:repeat(3,1fr)}
 }
-.overlay{display:none;position:fixed;inset:0;background:#00000055;z-index:90}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,30,45,.45);z-index:90}
 .overlay.open{display:block}
 </style>
 </head>
@@ -256,7 +287,7 @@ select.form-control option{background:#1a1d27}
 <!-- ===== SIDEBAR ===== -->
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-icon">❤️</div>
+    <div class="logo-icon">â¤ï¸</div>
     <div>
       <div class="logo-text">AgenticHealth</div>
       <div class="logo-sub">AI Triage Support</div>
@@ -264,22 +295,23 @@ select.form-control option{background:#1a1d27}
   </div>
   <div class="sidebar-nav">
     <div class="nav-section">Overview</div>
-    <div class="nav-item active" data-page="dashboard"><span class="nav-icon">📊</span>Dashboard</div>
-    <div class="nav-item" data-page="patients"><span class="nav-icon">👥</span>Patients<span class="nav-badge" id="badge-patients">0</span></div>
+    <div class="nav-item active" data-page="dashboard"><span class="nav-icon">ðŸ“Š</span>Dashboard</div>
+    <div class="nav-item" data-page="patients"><span class="nav-icon">ðŸ‘¥</span>Patients<span class="nav-badge" id="badge-patients">0</span></div>
     <div class="nav-section">AI Agents</div>
-    <div class="nav-item" data-page="wearable"><span class="nav-icon">⌚</span>Wearable Analysis</div>
-    <div class="nav-item" data-page="signal"><span class="nav-icon">📶</span>Signal Quality</div>
-    <div class="nav-item" data-page="pattern"><span class="nav-icon">🔍</span>Pattern Analysis</div>
-    <div class="nav-item" data-page="triage"><span class="nav-icon">🚨</span>Triage Priority<span class="nav-badge yellow" id="badge-triage">0</span></div>
-    <div class="nav-item" data-page="intervention"><span class="nav-icon">💊</span>Intervention Plans</div>
+    <div class="nav-item" data-page="wearable"><span class="nav-icon">âŒš</span>Wearable Analysis</div>
+    <div class="nav-item" data-page="signal"><span class="nav-icon">ðŸ“¶</span>Signal Quality</div>
+    <div class="nav-item" data-page="pattern"><span class="nav-icon">ðŸ”</span>Pattern Analysis</div>
+    <div class="nav-item" data-page="triage"><span class="nav-icon">ðŸš¨</span>Triage Priority<span class="nav-badge yellow" id="badge-triage">0</span></div>
+    <div class="nav-item" data-page="intervention"><span class="nav-icon">ðŸ’Š</span>Intervention Plans</div>
     <div class="nav-section">Review &amp; Oversight</div>
-    <div class="nav-item" data-page="escalation"><span class="nav-icon">⬆️</span>Escalation Review<span class="nav-badge" id="badge-escalation">0</span></div>
-    <div class="nav-item" data-page="approval"><span class="nav-icon">✅</span>Human Approval<span class="nav-badge" id="badge-approval">0</span></div>
-    <div class="nav-item" data-page="reports"><span class="nav-icon">📋</span>Reports &amp; Audit</div>
+    <div class="nav-item" data-page="escalation"><span class="nav-icon">â¬†ï¸</span>Escalation Review<span class="nav-badge" id="badge-escalation">0</span></div>
+    <div class="nav-item" data-page="approval"><span class="nav-icon">âœ…</span>Human Approval<span class="nav-badge" id="badge-approval">0</span></div>
+    <div class="nav-item" data-page="reports"><span class="nav-icon">ðŸ“‹</span>Reports &amp; Audit</div>
     <div class="nav-section">Settings</div>
-    <div class="nav-item" data-page="settings"><span class="nav-icon">⚙️</span>Settings</div>
+    <div class="nav-item" data-page="settings"><span class="nav-icon">âš™ï¸</span>Settings</div>
+    <div class="nav-item" data-page="ibmai"><span class="nav-icon">ðŸ¤–</span>IBM watsonx AI</div>
   </div>
-  <div class="sidebar-footer">v1.0 · Simulation Only · Not for Clinical Use</div>
+  <div class="sidebar-footer">v1.0 Â· Simulation Only Â· Not for Clinical Use</div>
 </nav>
 <div class="overlay" id="overlay"></div>
 
@@ -287,7 +319,7 @@ select.form-control option{background:#1a1d27}
 <div class="main-content">
   <div class="topbar">
     <div class="topbar-left">
-      <button class="hamburger" id="hamburger">☰</button>
+      <button class="hamburger" id="hamburger">â˜°</button>
       <div>
         <div class="topbar-title" id="topbar-title">Dashboard</div>
         <div class="topbar-subtitle" id="topbar-sub">Agentic AI Health Monitoring Overview</div>
@@ -295,8 +327,9 @@ select.form-control option{background:#1a1d27}
     </div>
     <div class="topbar-right">
       <div class="status-dot"></div>
-      <span class="sim-badge">⚠️ SIMULATION MODE</span>
-      <button class="btn btn-primary btn-sm" id="run-all-btn">▶ Run All Agents</button>
+      <span class="ibm-badge" id="ibm-badge">ðŸ¤– IBM watsonx Connected</span>
+      <span class="sim-badge">âš ï¸ SIMULATION MODE</span>
+      <button class="btn btn-primary btn-sm" id="run-all-btn">â–¶ Run All Agents</button>
     </div>
   </div>
 
@@ -308,28 +341,28 @@ select.form-control option{background:#1a1d27}
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="disclaimer">
-      <strong>⚠️ Simulation Notice:</strong> All data, AI outputs, triage suggestions, and intervention plans shown here are entirely synthetic and simulated for demonstration purposes. This system does not provide medical diagnosis, prescription, or clinical advice. All clinical decisions remain subject to review by authorised healthcare professionals.
+      <strong>âš ï¸ Simulation Notice:</strong> All data, AI outputs, triage suggestions, and intervention plans shown here are entirely synthetic and simulated for demonstration purposes. This system does not provide medical diagnosis, prescription, or clinical advice. All clinical decisions remain subject to review by authorised healthcare professionals.
     </div>
     <div class="section-title">System Dashboard</div>
     <div class="section-sub">Real-time overview of all monitored patients, agent activity, and priority alerts</div>
     <div class="grid grid-4" style="margin-bottom:1rem" id="stat-cards"></div>
     <div class="grid grid-2" style="margin-bottom:1rem">
       <div class="card">
-        <div class="card-header"><span class="card-title">📈 Vital Signs Trend (24h)</span><span class="badge badge-sim">SIMULATED</span></div>
+        <div class="card-header"><span class="card-title">ðŸ“ˆ Vital Signs Trend (24h)</span><span class="badge badge-sim">SIMULATED</span></div>
         <div class="chart-container"><canvas id="chart-vitals" height="180"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">🚨 Triage Distribution</span><span class="badge badge-sim">SIMULATED</span></div>
+        <div class="card-header"><span class="card-title">ðŸš¨ Triage Distribution</span><span class="badge badge-sim">SIMULATED</span></div>
         <div class="chart-container"><canvas id="chart-triage" height="180"></canvas></div>
       </div>
     </div>
     <div class="grid grid-2">
       <div class="card">
-        <div class="card-header"><span class="card-title">🤖 Agent Activity</span></div>
+        <div class="card-header"><span class="card-title">ðŸ¤– Agent Activity</span></div>
         <div id="agent-activity-list" style="font-size:.8rem"></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">🔔 Recent Alerts</span><button class="btn btn-secondary btn-xs" onclick="App.pages.showPage('triage')">View All</button></div>
+        <div class="card-header"><span class="card-title">ðŸ”” Recent Alerts</span><button class="btn btn-secondary btn-xs" onclick="App.pages.showPage('triage')">View All</button></div>
         <div id="recent-alerts-list"></div>
       </div>
     </div>
@@ -341,8 +374,8 @@ select.form-control option{background:#1a1d27}
     <div class="section-sub">All monitored patients with live wearable data streams</div>
     <div style="display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
       <div class="search-wrap" style="flex:1;min-width:200px">
-        <span class="search-icon">🔍</span>
-        <input type="text" class="form-control search-wrap" id="patient-search" placeholder="Search patients…" style="padding-left:2rem">
+        <span class="search-icon">ðŸ”</span>
+        <input type="text" class="form-control search-wrap" id="patient-search" placeholder="Search patientsâ€¦" style="padding-left:2rem">
       </div>
       <select class="form-control" id="patient-filter-priority" style="width:160px">
         <option value="">All Priorities</option>
@@ -367,18 +400,18 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-wearable">
     <div class="section-title">Wearable Data Analysis Agent</div>
     <div class="section-sub">AI-simulated agent that ingests and interprets raw wearable sensor streams</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> The following analysis is generated by a rule-based simulation engine, not a real AI model. All findings are illustrative only.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> The following analysis is generated by a rule-based simulation engine, not a real AI model. All findings are illustrative only.</div>
     <div class="two-col">
       <div>
         <div class="card" style="margin-bottom:1rem">
           <div class="card-header"><span class="card-title">Select Patient</span></div>
           <div id="wearable-patient-list" class="scrollable"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%" id="run-wearable-btn" onclick="App.agents.runWearable()">▶ Run Wearable Agent</button>
+        <button class="btn btn-primary" style="width:100%" id="run-wearable-btn" onclick="App.agents.runWearable()">â–¶ Run Wearable Agent</button>
       </div>
       <div>
         <div class="card">
-          <div class="card-header"><span class="card-title">⌚ Wearable Stream</span><span class="badge badge-sim">SIMULATED</span></div>
+          <div class="card-header"><span class="card-title">âŒš Wearable Stream</span><span class="badge badge-sim">SIMULATED</span></div>
           <div id="wearable-output"></div>
         </div>
       </div>
@@ -389,18 +422,18 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-signal">
     <div class="section-title">Signal Quality Assessment Agent</div>
     <div class="section-sub">Detects artefacts, noise, sensor detachment, and data reliability issues in wearable streams</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> Signal quality scores and artefact flags are generated by a rule-based simulation.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> Signal quality scores and artefact flags are generated by a rule-based simulation.</div>
     <div class="two-col">
       <div>
         <div class="card" style="margin-bottom:1rem">
           <div class="card-header"><span class="card-title">Select Patient</span></div>
           <div id="signal-patient-list" class="scrollable"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runSignal()">▶ Run Signal Agent</button>
+        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runSignal()">â–¶ Run Signal Agent</button>
       </div>
       <div>
         <div class="card">
-          <div class="card-header"><span class="card-title">📶 Signal Assessment</span><span class="badge badge-sim">SIMULATED</span></div>
+          <div class="card-header"><span class="card-title">ðŸ“¶ Signal Assessment</span><span class="badge badge-sim">SIMULATED</span></div>
           <div id="signal-output"></div>
         </div>
       </div>
@@ -411,22 +444,22 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-pattern">
     <div class="section-title">Pattern Analysis Agent</div>
     <div class="section-sub">Identifies clinical patterns, trends, and anomalies across wearable data streams</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> Pattern detection uses hardcoded clinical reference ranges. Not a diagnostic tool.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> Pattern detection uses hardcoded clinical reference ranges. Not a diagnostic tool.</div>
     <div class="two-col">
       <div>
         <div class="card" style="margin-bottom:1rem">
           <div class="card-header"><span class="card-title">Select Patient</span></div>
           <div id="pattern-patient-list" class="scrollable"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runPattern()">▶ Run Pattern Agent</button>
+        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runPattern()">â–¶ Run Pattern Agent</button>
       </div>
       <div>
         <div class="card">
-          <div class="card-header"><span class="card-title">🔍 Pattern Findings</span><span class="badge badge-sim">SIMULATED</span></div>
+          <div class="card-header"><span class="card-title">ðŸ” Pattern Findings</span><span class="badge badge-sim">SIMULATED</span></div>
           <div id="pattern-output"></div>
         </div>
         <div class="card" style="margin-top:1rem">
-          <div class="card-header"><span class="card-title">📈 Vital Trend (Patient)</span></div>
+          <div class="card-header"><span class="card-title">ðŸ“ˆ Vital Trend (Patient)</span></div>
           <div class="chart-container"><canvas id="chart-patient-vitals" height="180"></canvas></div>
         </div>
       </div>
@@ -437,9 +470,9 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-triage">
     <div class="section-title">Triage Prioritisation Agent</div>
     <div class="section-sub">AI-assisted acuity scoring and priority classification for all monitored patients</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> Triage scores are computed by a rule-based algorithm, not clinical assessment. Always verify with qualified staff.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> Triage scores are computed by a rule-based algorithm, not clinical assessment. Always verify with qualified staff.</div>
     <div style="display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
-      <button class="btn btn-primary btn-sm" onclick="App.agents.runTriageAll()">▶ Run Triage on All Patients</button>
+      <button class="btn btn-primary btn-sm" onclick="App.agents.runTriageAll()">â–¶ Run Triage on All Patients</button>
       <select class="form-control" id="triage-filter" style="width:180px">
         <option value="">All Priorities</option>
         <option value="critical">Critical Only</option>
@@ -455,18 +488,18 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-intervention">
     <div class="section-title">Intervention Planning Agent</div>
     <div class="section-sub">Generates evidence-informed suggested care actions based on patient patterns and triage status</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> Suggested interventions are illustrative and based on predefined educational rules. Not a prescription or medical recommendation. All interventions require authorised professional review before implementation.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> Suggested interventions are illustrative and based on predefined educational rules. Not a prescription or medical recommendation. All interventions require authorised professional review before implementation.</div>
     <div class="two-col">
       <div>
         <div class="card" style="margin-bottom:1rem">
           <div class="card-header"><span class="card-title">Select Patient</span></div>
           <div id="intervention-patient-list" class="scrollable"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runIntervention()">▶ Generate Plan</button>
+        <button class="btn btn-primary" style="width:100%" onclick="App.agents.runIntervention()">â–¶ Generate Plan</button>
       </div>
       <div>
         <div class="card">
-          <div class="card-header"><span class="card-title">💊 Intervention Plan</span><span class="badge badge-sim">SIMULATED</span></div>
+          <div class="card-header"><span class="card-title">ðŸ’Š Intervention Plan</span><span class="badge badge-sim">SIMULATED</span></div>
           <div id="intervention-output"></div>
         </div>
       </div>
@@ -477,9 +510,9 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-escalation">
     <div class="section-title">Escalation Review Agent</div>
     <div class="section-sub">Identifies cases requiring immediate escalation and routes them for human review</div>
-    <div class="disclaimer"><strong>⚠️ Simulated AI Output:</strong> Escalation flags are computed by simulation rules, not clinical judgment.</div>
+    <div class="disclaimer"><strong>âš ï¸ Simulated AI Output:</strong> Escalation flags are computed by simulation rules, not clinical judgment.</div>
     <div style="margin-bottom:1rem;display:flex;gap:.75rem">
-      <button class="btn btn-primary btn-sm" onclick="App.agents.runEscalation()">▶ Scan for Escalations</button>
+      <button class="btn btn-primary btn-sm" onclick="App.agents.runEscalation()">â–¶ Scan for Escalations</button>
     </div>
     <div id="escalation-list"></div>
   </div>
@@ -488,11 +521,11 @@ select.form-control option{background:#1a1d27}
   <div class="page" id="page-approval">
     <div class="section-title">Human Approval Panel</div>
     <div class="section-sub">All AI-generated triage priorities and intervention plans await human review and approval here</div>
-    <div class="disclaimer"><strong>⚠️ Oversight Requirement:</strong> All AI outputs are provisional. A qualified healthcare professional must review and approve or reject each item before any clinical action is taken.</div>
+    <div class="disclaimer"><strong>âš ï¸ Oversight Requirement:</strong> All AI outputs are provisional. A qualified healthcare professional must review and approve or reject each item before any clinical action is taken.</div>
     <div class="tabs">
-      <button class="tab active" onclick="App.approval.showTab('pending',this)">⏳ Pending (<span id="pending-count">0</span>)</button>
-      <button class="tab" onclick="App.approval.showTab('approved',this)">✅ Approved (<span id="approved-count">0</span>)</button>
-      <button class="tab" onclick="App.approval.showTab('rejected',this)">❌ Rejected (<span id="rejected-count">0</span>)</button>
+      <button class="tab active" onclick="App.approval.showTab('pending',this)">â³ Pending (<span id="pending-count">0</span>)</button>
+      <button class="tab" onclick="App.approval.showTab('approved',this)">âœ… Approved (<span id="approved-count">0</span>)</button>
+      <button class="tab" onclick="App.approval.showTab('rejected',this)">âŒ Rejected (<span id="rejected-count">0</span>)</button>
     </div>
     <div id="approval-list"></div>
   </div>
@@ -502,18 +535,18 @@ select.form-control option{background:#1a1d27}
     <div class="section-title">Reports &amp; Audit Log</div>
     <div class="section-sub">Monitoring reports, agent audit trails, and exportable records</div>
     <div style="display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
-      <button class="btn btn-primary btn-sm" onclick="App.reports.generate()">📋 Generate Summary Report</button>
-      <button class="btn btn-secondary btn-sm" onclick="App.reports.exportCSV()">⬇️ Export CSV</button>
-      <button class="btn btn-secondary btn-sm" onclick="App.reports.exportJSON()">⬇️ Export JSON</button>
-      <button class="btn btn-secondary btn-sm" onclick="App.reports.clearAudit()">🗑️ Clear Audit Log</button>
+      <button class="btn btn-primary btn-sm" onclick="App.reports.generate()">ðŸ“‹ Generate Summary Report</button>
+      <button class="btn btn-secondary btn-sm" onclick="App.reports.exportCSV()">â¬‡ï¸ Export CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="App.reports.exportJSON()">â¬‡ï¸ Export JSON</button>
+      <button class="btn btn-secondary btn-sm" onclick="App.reports.clearAudit()">ðŸ—‘ï¸ Clear Audit Log</button>
     </div>
     <div class="grid grid-2" style="margin-bottom:1rem">
       <div class="card">
-        <div class="card-header"><span class="card-title">📋 Summary Report</span><span class="badge badge-sim">SIMULATED</span></div>
-        <div id="report-output"><div class="empty-state"><div class="empty-icon">📋</div><p>Click "Generate Summary Report" to produce a full system report.</p></div></div>
+        <div class="card-header"><span class="card-title">ðŸ“‹ Summary Report</span><span class="badge badge-sim">SIMULATED</span></div>
+        <div id="report-output"><div class="empty-state"><div class="empty-icon">ðŸ“‹</div><p>Click "Generate Summary Report" to produce a full system report.</p></div></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">📜 Audit Log</span></div>
+        <div class="card-header"><span class="card-title">ðŸ“œ Audit Log</span></div>
         <div id="audit-log" class="scrollable"></div>
       </div>
     </div>
@@ -525,21 +558,77 @@ select.form-control option{background:#1a1d27}
     <div class="section-sub">Simulation parameters, alert thresholds, and data management</div>
     <div class="grid grid-2">
       <div class="card">
-        <div class="card-header"><span class="card-title">⚙️ Alert Thresholds</span></div>
+        <div class="card-header"><span class="card-title">âš™ï¸ Alert Thresholds</span></div>
         <div id="threshold-form"></div>
         <button class="btn btn-primary" style="margin-top:.75rem" onclick="App.settings.save()">Save Thresholds</button>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">🗄️ Data Management</span></div>
+        <div class="card-header"><span class="card-title">ðŸ—„ï¸ Data Management</span></div>
         <p style="font-size:.8rem;color:#64748b;margin-bottom:1rem">All data is stored in browser localStorage. No server or API required.</p>
         <div style="display:flex;flex-direction:column;gap:.5rem">
-          <button class="btn btn-secondary btn-sm" onclick="App.data.seedDemo()">🌱 Reload Demo Data</button>
-          <button class="btn btn-secondary btn-sm" onclick="App.data.exportAll()">📦 Export All Data (JSON)</button>
-          <button class="btn btn-danger btn-sm" onclick="App.data.clearAll()">🗑️ Clear All Data</button>
+          <button class="btn btn-secondary btn-sm" onclick="App.data.seedDemo()">ðŸŒ± Reload Demo Data</button>
+          <button class="btn btn-secondary btn-sm" onclick="App.data.exportAll()">ðŸ“¦ Export All Data (JSON)</button>
+          <button class="btn btn-danger btn-sm" onclick="App.data.clearAll()">ðŸ—‘ï¸ Clear All Data</button>
         </div>
         <div class="divider"></div>
         <p style="font-size:.75rem;color:#475569">localStorage keys: patients, observations, agentResults, triageResults, approvals, auditLog</p>
       </div>
+    </div>
+  </div>
+
+  <!-- IBM WATSONX AI -->
+  <div class="page" id="page-ibmai">
+    <div class="section-title">IBM watsonx AI Integration</div>
+    <div class="section-sub">Configure your IBM watsonx.ai credentials and run live AI analysis on patient data</div>
+    <div class="disclaimer"><strong>âš ï¸ Clinical Safety Notice:</strong> IBM watsonx AI responses are AI-generated text and must not be used as clinical diagnosis, prescription, or medical advice. All outputs require review by a qualified healthcare professional before any action is taken.</div>
+    <div class="grid grid-2" style="margin-bottom:1rem">
+      <div class="card">
+        <div class="card-header"><span class="card-title">ðŸ”‘ API Credentials</span><span id="ibm-conn-status" class="badge badge-gray">Not connected</span></div>
+        <div class="form-group">
+          <label class="form-label">IBM API Key</label>
+          <input type="password" class="form-control" id="ibm-api-key" placeholder="Enter IBM API keyâ€¦">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project ID</label>
+          <input type="text" class="form-control" id="ibm-project-id" placeholder="Enter Project IDâ€¦">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Model</label>
+          <select class="form-control" id="ibm-model">
+            <option value="ibm/granite-3-8b-instruct">IBM Granite 3 8B Instruct</option>
+            <option value="ibm/granite-13b-chat-v2">IBM Granite 13B Chat v2</option>
+            <option value="meta-llama/llama-3-70b-instruct">Llama 3 70B Instruct</option>
+            <option value="mistralai/mixtral-8x7b-instruct-v01">Mixtral 8x7B Instruct</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <button class="btn btn-ibm btn-sm" onclick="IBM.saveAndTest()">ðŸ”— Save &amp; Test Connection</button>
+          <button class="btn btn-secondary btn-sm" onclick="IBM.clear()">ðŸ—‘ï¸ Clear Credentials</button>
+        </div>
+        <div id="ibm-test-result" style="margin-top:.75rem"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">ðŸ’¬ Live AI Chat</span><span class="badge badge-ibm">IBM watsonx</span></div>
+        <div class="form-group">
+          <label class="form-label">Select Patient Context</label>
+          <select class="form-control" id="ibm-chat-patient"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ask the AI</label>
+          <textarea class="form-control" id="ibm-chat-input" rows="3" placeholder="e.g. Summarise this patient's vital signs and suggest monitoring prioritiesâ€¦"></textarea>
+        </div>
+        <button class="btn btn-ibm btn-sm" style="width:100%" onclick="IBM.chat()">ðŸ¤– Ask IBM watsonx AI</button>
+        <div id="ibm-chat-output" style="margin-top:.75rem"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">ðŸ§  AI Agent Assist</span><span class="badge badge-ibm">IBM watsonx</span></div>
+      <p style="font-size:.8rem;color:#64748b;margin-bottom:1rem">Run IBM watsonx AI analysis on a selected patient across all agent types simultaneously.</p>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+        <select class="form-control" id="ibm-agent-patient" style="max-width:260px"></select>
+        <button class="btn btn-ibm btn-sm" onclick="IBM.runAgentAssist()">ðŸ¤– Run Full AI Analysis</button>
+      </div>
+      <div id="ibm-agent-output"></div>
     </div>
   </div>
 
@@ -551,12 +640,12 @@ select.form-control option{background:#1a1d27}
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title" id="modal-patient-title">Patient Detail</div>
-      <button class="modal-close" onclick="App.modal.close('modal-patient')">×</button>
+      <button class="modal-close" onclick="App.modal.close('modal-patient')">Ã—</button>
     </div>
     <div class="modal-body" id="modal-patient-body"></div>
     <div class="modal-footer">
       <button class="btn btn-secondary btn-sm" onclick="App.modal.close('modal-patient')">Close</button>
-      <button class="btn btn-primary btn-sm" id="modal-run-agents-btn">▶ Run Agents</button>
+      <button class="btn btn-primary btn-sm" id="modal-run-agents-btn">â–¶ Run Agents</button>
     </div>
   </div>
 </div>
@@ -565,11 +654,11 @@ select.form-control option{background:#1a1d27}
 <div class="modal-overlay" id="modal-add-patient">
   <div class="modal" style="max-width:680px">
     <div class="modal-header">
-      <div class="modal-title">➕ Add New Patient</div>
-      <button class="modal-close" onclick="App.modal.close('modal-add-patient')">×</button>
+      <div class="modal-title">âž• Add New Patient</div>
+      <button class="modal-close" onclick="App.modal.close('modal-add-patient')">Ã—</button>
     </div>
     <div class="modal-body">
-      <div class="disclaimer" style="margin-bottom:1rem"><strong>⚠️ Simulation:</strong> Data entered here is synthetic and stored only in your browser's localStorage. No real patient data is collected or transmitted.</div>
+      <div class="disclaimer" style="margin-bottom:1rem"><strong>âš ï¸ Simulation:</strong> Data entered here is synthetic and stored only in your browser's localStorage. No real patient data is collected or transmitted.</div>
       <div class="grid grid-2">
         <div class="form-group">
           <label class="form-label">Full Name <span style="color:#ef4444">*</span></label>
@@ -613,42 +702,42 @@ select.form-control option{background:#1a1d27}
         </div>
       </div>
       <div class="divider"></div>
-      <div style="font-size:.82rem;font-weight:600;color:#f1f5f9;margin-bottom:.75rem">📊 Initial Vital Signs <span class="badge badge-sim" style="margin-left:.5rem">SIMULATED</span></div>
+      <div style="font-size:.82rem;font-weight:600;color:#1e3a4f;margin-bottom:.75rem">ðŸ“Š Initial Vital Signs <span class="badge badge-sim" style="margin-left:.5rem">SIMULATED</span></div>
       <div class="grid grid-3">
         <div class="form-group">
           <label class="form-label">Heart Rate (bpm)</label>
-          <input type="number" class="form-control" id="ap-hr" placeholder="60–100" min="20" max="220">
+          <input type="number" class="form-control" id="ap-hr" placeholder="60â€“100" min="20" max="220">
         </div>
         <div class="form-group">
           <label class="form-label">SpO2 (%)</label>
-          <input type="number" class="form-control" id="ap-spo2" placeholder="95–100" min="50" max="100">
+          <input type="number" class="form-control" id="ap-spo2" placeholder="95â€“100" min="50" max="100">
         </div>
         <div class="form-group">
           <label class="form-label">Systolic BP (mmHg)</label>
-          <input type="number" class="form-control" id="ap-sbp" placeholder="110–130" min="50" max="250">
+          <input type="number" class="form-control" id="ap-sbp" placeholder="110â€“130" min="50" max="250">
         </div>
         <div class="form-group">
           <label class="form-label">Diastolic BP (mmHg)</label>
-          <input type="number" class="form-control" id="ap-dbp" placeholder="70–85" min="30" max="150">
+          <input type="number" class="form-control" id="ap-dbp" placeholder="70â€“85" min="30" max="150">
         </div>
         <div class="form-group">
           <label class="form-label">Resp Rate (/min)</label>
-          <input type="number" class="form-control" id="ap-rr" placeholder="12–20" min="4" max="60">
+          <input type="number" class="form-control" id="ap-rr" placeholder="12â€“20" min="4" max="60">
         </div>
         <div class="form-group">
-          <label class="form-label">Temperature (°C)</label>
-          <input type="number" class="form-control" id="ap-temp" placeholder="36.5–37.5" step="0.1" min="30" max="45">
+          <label class="form-label">Temperature (Â°C)</label>
+          <input type="number" class="form-control" id="ap-temp" placeholder="36.5â€“37.5" step="0.1" min="30" max="45">
         </div>
         <div class="form-group">
           <label class="form-label">Glucose (mg/dL)</label>
-          <input type="number" class="form-control" id="ap-glucose" placeholder="70–140" min="20" max="600">
+          <input type="number" class="form-control" id="ap-glucose" placeholder="70â€“140" min="20" max="600">
         </div>
         <div class="form-group">
           <label class="form-label">HRV (ms)</label>
-          <input type="number" class="form-control" id="ap-hrv" placeholder="20–60" min="1" max="200">
+          <input type="number" class="form-control" id="ap-hrv" placeholder="20â€“60" min="1" max="200">
         </div>
         <div class="form-group">
-          <label class="form-label">Signal Quality (0–1)</label>
+          <label class="form-label">Signal Quality (0â€“1)</label>
           <input type="number" class="form-control" id="ap-signalq" placeholder="0.90" step="0.01" min="0" max="1">
         </div>
       </div>
@@ -656,8 +745,8 @@ select.form-control option{background:#1a1d27}
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary btn-sm" onclick="App.modal.close('modal-add-patient')">Cancel</button>
-      <button class="btn btn-secondary btn-sm" onclick="App.patients.fillDefaults()">🎲 Auto-fill Defaults</button>
-      <button class="btn btn-primary btn-sm" onclick="App.patients.submitAddForm()">➕ Add Patient</button>
+      <button class="btn btn-secondary btn-sm" onclick="App.patients.fillDefaults()">ðŸŽ² Auto-fill Defaults</button>
+      <button class="btn btn-primary btn-sm" onclick="App.patients.submitAddForm()">âž• Add Patient</button>
     </div>
   </div>
 </div>
@@ -667,13 +756,13 @@ select.form-control option{background:#1a1d27}
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Review AI Recommendation</div>
-      <button class="modal-close" onclick="App.modal.close('modal-approval')">×</button>
+      <button class="modal-close" onclick="App.modal.close('modal-approval')">Ã—</button>
     </div>
     <div class="modal-body" id="modal-approval-body"></div>
     <div class="modal-footer">
       <button class="btn btn-secondary btn-sm" onclick="App.modal.close('modal-approval')">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="modal-reject-btn">❌ Reject</button>
-      <button class="btn btn-success btn-sm" id="modal-approve-btn">✅ Approve</button>
+      <button class="btn btn-danger btn-sm" id="modal-reject-btn">âŒ Reject</button>
+      <button class="btn btn-success btn-sm" id="modal-approve-btn">âœ… Approve</button>
     </div>
   </div>
 </div>
@@ -748,8 +837,8 @@ const Rules = {
     else if(v.spo2<t.spo2_low)flags.push({type:'warn',key:'spo2',msg:`Low SpO2: ${v.spo2}% (ref >${t.spo2_low})`});
     if(v.rr<t.rr_low)flags.push({type:'warn',key:'rr',msg:`Low RR: ${v.rr} /min (ref >${t.rr_low})`});
     else if(v.rr>t.rr_high)flags.push({type:v.rr>30?'alert':'warn',key:'rr',msg:`Tachypnoea: RR ${v.rr} /min (ref <${t.rr_high})`});
-    if(v.temp>t.temp_high)flags.push({type:v.temp>39.5?'alert':'warn',key:'temp',msg:`Fever: ${v.temp}°C (ref <${t.temp_high})`});
-    else if(v.temp<t.temp_low)flags.push({type:'warn',key:'temp',msg:`Hypothermia: ${v.temp}°C (ref >${t.temp_low})`});
+    if(v.temp>t.temp_high)flags.push({type:v.temp>39.5?'alert':'warn',key:'temp',msg:`Fever: ${v.temp}Â°C (ref <${t.temp_high})`});
+    else if(v.temp<t.temp_low)flags.push({type:'warn',key:'temp',msg:`Hypothermia: ${v.temp}Â°C (ref >${t.temp_low})`});
     if(v.glucose<t.glucose_low)flags.push({type:'alert',key:'glucose',msg:`Hypoglycaemia: ${v.glucose} mg/dL (ref >${t.glucose_low})`});
     else if(v.glucose>t.glucose_high)flags.push({type:'warn',key:'glucose',msg:`Hyperglycaemia: ${v.glucose} mg/dL (ref <${t.glucose_high})`});
     return flags;
@@ -785,7 +874,7 @@ const Rules = {
     if(f.includes('spo2'))plans.push({action:'Supplemental oxygen consideration',urgency:p.vitals.spo2<90?'URGENT':'ROUTINE',rationale:'SpO2 below reference range. Evidence-based guidelines (BTS) suggest oxygen therapy assessment when SpO2 <94% in acute illness.',category:'Respiratory'});
     if(f.includes('hr'))plans.push({action:'12-lead ECG monitoring',urgency:p.vitals.hr>140?'URGENT':'ROUTINE',rationale:'HR outside normal range. Cardiac rhythm assessment recommended to rule out arrhythmia per ACLS guidelines.',category:'Cardiac'});
     if(f.includes('sbp'))plans.push({action:'Blood pressure reassessment & fluid status review',urgency:p.vitals.sbp<90?'URGENT':'ROUTINE',rationale:p.vitals.sbp<90?'Hypotension detected. Haemodynamic assessment per Surviving Sepsis Campaign bundle.':'Elevated BP. Review antihypertensive adherence and consider clinical reassessment.',category:'Cardiovascular'});
-    if(f.includes('temp'))plans.push({action:'Temperature management protocol',urgency:p.vitals.temp>39.5?'URGENT':'ROUTINE',rationale:`Fever ${p.vitals.temp}°C. NICE guidelines recommend antipyretic management and infection source investigation for temp >38°C.`,category:'Infection'});
+    if(f.includes('temp'))plans.push({action:'Temperature management protocol',urgency:p.vitals.temp>39.5?'URGENT':'ROUTINE',rationale:`Fever ${p.vitals.temp}Â°C. NICE guidelines recommend antipyretic management and infection source investigation for temp >38Â°C.`,category:'Infection'});
     if(f.includes('glucose'))plans.push({action:'Blood glucose monitoring intensification',urgency:p.vitals.glucose<70?'URGENT':'ROUTINE',rationale:p.vitals.glucose<70?'Hypoglycaemia protocol per ADA standards. Immediate glucose supplementation assessment.':'Hyperglycaemia protocol. Consider sliding scale insulin review per ADA inpatient guidelines.',category:'Metabolic'});
     if(f.includes('rr'))plans.push({action:'Respiratory assessment',urgency:p.vitals.rr>28?'URGENT':'ROUTINE',rationale:`RR ${p.vitals.rr}/min outside reference range. Respiratory cause assessment including ABG consideration per BTS guidelines.`,category:'Respiratory'});
     if(plans.length===0)plans.push({action:'Continue routine monitoring',urgency:'ROUTINE',rationale:'All vital signs within reference ranges. Continue scheduled wearable monitoring and documentation.',category:'Monitoring'});
@@ -827,7 +916,7 @@ const Audit = {
 };
 
 // ============================================================
-// CHART HELPERS (Canvas 2D — no external lib)
+// CHART HELPERS (Canvas 2D â€” no external lib)
 // ============================================================
 const Chart = {
   line(id,labels,datasets,opts={}){
@@ -845,10 +934,10 @@ const Chart = {
     const scaleY=v=>(1-(v-minV)/range)*ph+pad.t;
     const scaleX=i=>pad.l+i*(pw/(labels.length-1||1));
     // grid
-    ctx.strokeStyle='#1e2535';ctx.lineWidth=1;
+    ctx.strokeStyle='#dde5ed';ctx.lineWidth=1;
     for(let i=0;i<=4;i++){const y=pad.t+i*(ph/4);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
     // x labels
-    ctx.fillStyle='#475569';ctx.font='10px system-ui';ctx.textAlign='center';
+    ctx.fillStyle='#64748b';ctx.font='10px system-ui';ctx.textAlign='center';
     const step=Math.ceil(labels.length/6);
     labels.forEach((l,i)=>{if(i%step===0){ctx.fillText(l,scaleX(i),H-8);}});
     // y labels
@@ -856,19 +945,19 @@ const Chart = {
     for(let i=0;i<=4;i++){const v=minV+(4-i)*range/4;ctx.fillText(Math.round(v),pad.l-5,pad.t+i*(ph/4)+4);}
     // lines
     datasets.forEach(ds=>{
-      ctx.beginPath();ctx.strokeStyle=ds.color||'#3b82f6';ctx.lineWidth=2;
+      ctx.beginPath();ctx.strokeStyle=ds.color||'#0891b2';ctx.lineWidth=2;
       ds.data.forEach((v,i)=>{const x=scaleX(i),y=scaleY(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
       ctx.stroke();
       // fill
       const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+ph);
-      grad.addColorStop(0,(ds.color||'#3b82f6')+'33');grad.addColorStop(1,'transparent');
+      grad.addColorStop(0,(ds.color||'#0891b2')+'22');grad.addColorStop(1,'transparent');
       ctx.beginPath();ctx.moveTo(scaleX(0),scaleY(ds.data[0]));
       ds.data.forEach((v,i)=>{ctx.lineTo(scaleX(i),scaleY(v));});
       ctx.lineTo(scaleX(ds.data.length-1),pad.t+ph);ctx.lineTo(scaleX(0),pad.t+ph);ctx.closePath();
       ctx.fillStyle=grad;ctx.fill();
     });
     // legend
-    if(datasets.length>1){let lx=pad.l;datasets.forEach(ds=>{ctx.fillStyle=ds.color||'#3b82f6';ctx.fillRect(lx,6,12,8);ctx.fillStyle='#94a3b8';ctx.font='10px system-ui';ctx.textAlign='left';ctx.fillText(ds.label||'',lx+15,14);lx+=ctx.measureText(ds.label||'').width+35;});}
+    if(datasets.length>1){let lx=pad.l;datasets.forEach(ds=>{ctx.fillStyle=ds.color||'#0891b2';ctx.fillRect(lx,6,12,8);ctx.fillStyle='#475569';ctx.font='10px system-ui';ctx.textAlign='left';ctx.fillText(ds.label||'',lx+15,14);lx+=ctx.measureText(ds.label||'').width+35;});}
   },
   donut(id,segments,opts={}){
     const c=document.getElementById(id);if(!c)return;
@@ -883,11 +972,11 @@ const Chart = {
       const sweep=(s.value/total)*Math.PI*2;
       ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,startAngle,startAngle+sweep);ctx.closePath();
       ctx.fillStyle=s.color;ctx.fill();
-      ctx.beginPath();ctx.arc(cx,cy,ri,0,Math.PI*2);ctx.fillStyle='#0f1117';ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,ri,0,Math.PI*2);ctx.fillStyle='#f7fafc';ctx.fill();
       startAngle+=sweep;
     });
     // center text
-    ctx.fillStyle='#f1f5f9';ctx.font='bold 20px system-ui';ctx.textAlign='center';
+    ctx.fillStyle='#1e3a4f';ctx.font='bold 20px system-ui';ctx.textAlign='center';
     ctx.fillText(total,cx,cy+4);
     ctx.fillStyle='#64748b';ctx.font='11px system-ui';
     ctx.fillText('Total',cx,cy+18);
@@ -895,7 +984,7 @@ const Chart = {
     const lx=W-115,startY=30;
     segments.forEach((s,i)=>{
       ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(lx,startY+i*22,5,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle='#94a3b8';ctx.font='11px system-ui';ctx.textAlign='left';
+      ctx.fillStyle='#475569';ctx.font='11px system-ui';ctx.textAlign='left';
       ctx.fillText(`${s.label}: ${s.value}`,lx+10,startY+i*22+4);
     });
   }
@@ -907,7 +996,7 @@ const Chart = {
 const App = {
   state:{selectedPatient:null,currentPage:'dashboard',selectedWearablePatient:null,selectedSignalPatient:null,selectedPatternPatient:null,selectedInterventionPatient:null,approvalTab:'pending'},
 
-  // ── INIT ─────────────────────────────────────────────────
+  // â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   init(){
     Rules.load();
     const patients=DB.get('patients');
@@ -921,10 +1010,10 @@ const App = {
     Audit.add('System Started','AgenticHealth simulation system initialised','info');
   },
 
-  // ── NAVIGATION ───────────────────────────────────────────
+  // â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   pages:{
-    titles:{dashboard:'Dashboard',patients:'Patient Monitor',wearable:'Wearable Analysis Agent',signal:'Signal Quality Agent',pattern:'Pattern Analysis Agent',triage:'Triage Prioritisation Agent',intervention:'Intervention Planning Agent',escalation:'Escalation Review Agent',approval:'Human Approval Panel',reports:'Reports & Audit Log',settings:'Settings'},
-    subs:{dashboard:'Agentic AI Health Monitoring Overview',patients:'All monitored patients with live data',wearable:'Ingest and interpret raw wearable sensor streams',signal:'Detect artefacts and signal reliability issues',pattern:'Identify clinical patterns and anomalies',triage:'AI-assisted acuity scoring and priority classification',intervention:'Evidence-informed suggested care actions',escalation:'Cases requiring immediate escalation',approval:'Human review and approval queue',reports:'Monitoring reports and audit trails',settings:'Simulation parameters and data management'},
+    titles:{dashboard:'Dashboard',patients:'Patient Monitor',wearable:'Wearable Analysis Agent',signal:'Signal Quality Agent',pattern:'Pattern Analysis Agent',triage:'Triage Prioritisation Agent',intervention:'Intervention Planning Agent',escalation:'Escalation Review Agent',approval:'Human Approval Panel',reports:'Reports & Audit Log',settings:'Settings',ibmai:'IBM watsonx AI'},
+    subs:{dashboard:'Agentic AI Health Monitoring Overview',patients:'All monitored patients with live data',wearable:'Ingest and interpret raw wearable sensor streams',signal:'Detect artefacts and signal reliability issues',pattern:'Identify clinical patterns and anomalies',triage:'AI-assisted acuity scoring and priority classification',intervention:'Evidence-informed suggested care actions',escalation:'Cases requiring immediate escalation',approval:'Human review and approval queue',reports:'Monitoring reports and audit trails',settings:'Simulation parameters and data management',ibmai:'Live AI analysis powered by IBM watsonx.ai'},
     init(){
       document.querySelectorAll('.nav-item').forEach(el=>{
         el.addEventListener('click',()=>{App.pages.showPage(el.dataset.page);});
@@ -950,13 +1039,14 @@ const App = {
       if(page==='pattern')App.agents.renderPatientList('pattern');
       if(page==='intervention')App.agents.renderPatientList('intervention');
       if(page==='reports'){App.reports.renderAudit();}
+      if(page==='ibmai'){IBM.populatePatientSelects();}
       // close sidebar on mobile
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
     }
   },
 
-  // ── DASHBOARD ────────────────────────────────────────────
+  // â”€â”€ DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   dashboard:{
     render(){
       const patients=DB.get('patients')||[];
@@ -967,10 +1057,10 @@ const App = {
       const pending=approvals.filter(a=>a.status==='pending').length;
       const alerts=patients.reduce((a,p)=>{const flags=Rules.evaluateVitals(p.vitals);return a+flags.filter(f=>f.type==='alert').length;},0);
       document.getElementById('stat-cards').innerHTML=`
-        <div class="stat-card"><div class="stat-icon blue">👥</div><div class="stat-body"><div class="stat-val">${patients.length}</div><div class="stat-lbl">Monitored Patients</div><div class="stat-delta delta-up">▲ All active</div></div></div>
-        <div class="stat-card priority-critical"><div class="stat-icon red">🚨</div><div class="stat-body"><div class="stat-val">${critical}</div><div class="stat-lbl">Critical Priority</div><div class="stat-delta delta-down">Requires immediate review</div></div></div>
-        <div class="stat-card priority-high"><div class="stat-icon yellow">⚠️</div><div class="stat-body"><div class="stat-val">${high}</div><div class="stat-lbl">High Priority</div><div class="stat-delta delta-down">Needs clinical attention</div></div></div>
-        <div class="stat-card"><div class="stat-icon purple">✅</div><div class="stat-body"><div class="stat-val">${pending}</div><div class="stat-lbl">Pending Approvals</div><div class="stat-delta">Awaiting human review</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue">ðŸ‘¥</div><div class="stat-body"><div class="stat-val">${patients.length}</div><div class="stat-lbl">Monitored Patients</div><div class="stat-delta delta-up">â–² All active</div></div></div>
+        <div class="stat-card priority-critical"><div class="stat-icon red">ðŸš¨</div><div class="stat-body"><div class="stat-val">${critical}</div><div class="stat-lbl">Critical Priority</div><div class="stat-delta delta-down">Requires immediate review</div></div></div>
+        <div class="stat-card priority-high"><div class="stat-icon yellow">âš ï¸</div><div class="stat-body"><div class="stat-val">${high}</div><div class="stat-lbl">High Priority</div><div class="stat-delta delta-down">Needs clinical attention</div></div></div>
+        <div class="stat-card"><div class="stat-icon purple">âœ…</div><div class="stat-body"><div class="stat-val">${pending}</div><div class="stat-lbl">Pending Approvals</div><div class="stat-delta">Awaiting human review</div></div></div>
       `;
       this.renderVitalsChart(patients);
       this.renderTriageChart(patients);
@@ -982,35 +1072,35 @@ const App = {
       const avgHR=labels.map((_,i)=>55+Math.round(Math.sin(i*0.5)*15+Math.random()*8));
       const avgSpo2=labels.map((_,i)=>94+Math.round(Math.cos(i*0.3)*3+Math.random()*2));
       setTimeout(()=>Chart.line('chart-vitals',labels,[
-        {label:'Avg HR (bpm)',data:avgHR,color:'#ef4444'},
-        {label:'Avg SpO2 (%)',data:avgSpo2,color:'#3b82f6'}
+        {label:'Avg HR (bpm)',data:avgHR,color:'#dc2626'},
+        {label:'Avg SpO2 (%)',data:avgSpo2,color:'#0891b2'}
       ]),50);
     },
     renderTriageChart(patients){
       const counts={critical:0,high:0,medium:0,low:0};
       patients.forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);
       setTimeout(()=>Chart.donut('chart-triage',[
-        {label:'Critical',value:counts.critical,color:'#ef4444'},
-        {label:'High',value:counts.high,color:'#f97316'},
-        {label:'Medium',value:counts.medium,color:'#eab308'},
-        {label:'Low',value:counts.low,color:'#22c55e'}
+        {label:'Critical',value:counts.critical,color:'#dc2626'},
+        {label:'High',value:counts.high,color:'#ea580c'},
+        {label:'Medium',value:counts.medium,color:'#d97706'},
+        {label:'Low',value:counts.low,color:'#16a34a'}
       ]),50);
     },
     renderAgentActivity(){
       const agents=[
-        {name:'Wearable Analysis Agent',icon:'⌚',last:'Just now',status:'done'},
-        {name:'Signal Quality Agent',icon:'📶',last:'2 min ago',status:'done'},
-        {name:'Pattern Analysis Agent',icon:'🔍',last:'5 min ago',status:'done'},
-        {name:'Triage Prioritisation Agent',icon:'🚨',last:'8 min ago',status:'warn'},
-        {name:'Intervention Planning Agent',icon:'💊',last:'10 min ago',status:'done'},
-        {name:'Escalation Review Agent',icon:'⬆️',last:'12 min ago',status:'done'},
-        {name:'Human Approval Agent',icon:'✅',last:'15 min ago',status:'idle'},
-        {name:'Summary Validation Agent',icon:'📋',last:'18 min ago',status:'done'},
+        {name:'Wearable Analysis Agent',icon:'âŒš',last:'Just now',status:'done'},
+        {name:'Signal Quality Agent',icon:'ðŸ“¶',last:'2 min ago',status:'done'},
+        {name:'Pattern Analysis Agent',icon:'ðŸ”',last:'5 min ago',status:'done'},
+        {name:'Triage Prioritisation Agent',icon:'ðŸš¨',last:'8 min ago',status:'warn'},
+        {name:'Intervention Planning Agent',icon:'ðŸ’Š',last:'10 min ago',status:'done'},
+        {name:'Escalation Review Agent',icon:'â¬†ï¸',last:'12 min ago',status:'done'},
+        {name:'Human Approval Agent',icon:'âœ…',last:'15 min ago',status:'idle'},
+        {name:'Summary Validation Agent',icon:'ðŸ“‹',last:'18 min ago',status:'done'},
       ];
       document.getElementById('agent-activity-list').innerHTML=agents.map(a=>`
-        <div style="display:flex;align-items:center;gap:.6rem;padding:.45rem 0;border-bottom:1px solid #1e2535">
+        <div style="display:flex;align-items:center;gap:.6rem;padding:.45rem 0;border-bottom:1px solid #dde5ed">
           <span style="font-size:1rem">${a.icon}</span>
-          <span style="flex:1;font-size:.8rem;color:#e2e8f0">${a.name}</span>
+          <span style="flex:1;font-size:.8rem;color:#1e3a4f">${a.name}</span>
           <span style="font-size:.7rem;color:#64748b">${a.last}</span>
           <span class="agent-status ${a.status}" style="display:inline-block">${a.status}</span>
         </div>`).join('');
@@ -1023,19 +1113,19 @@ const App = {
       });
       alerts.sort((a,b)=>a.patient.priority==='critical'?-1:1);
       const list=document.getElementById('recent-alerts-list');
-      if(alerts.length===0){list.innerHTML='<div class="empty-state" style="padding:1.5rem"><div class="empty-icon">✅</div><p>No active critical alerts</p></div>';return;}
+      if(alerts.length===0){list.innerHTML='<div class="empty-state" style="padding:1.5rem"><div class="empty-icon">âœ…</div><p>No active critical alerts</p></div>';return;}
       list.innerHTML=alerts.slice(0,6).map(a=>`
         <div class="finding alert" style="display:flex;align-items:center;justify-content:space-between">
           <div>
             <div style="font-size:.78rem;font-weight:600;color:#fca5a5">${a.flag.msg}</div>
-            <div style="font-size:.7rem;color:#64748b">${a.patient.name} · ${a.patient.ward}</div>
+            <div style="font-size:.7rem;color:#64748b">${a.patient.name} Â· ${a.patient.ward}</div>
           </div>
           <span class="badge badge-critical">${a.patient.priority}</span>
         </div>`).join('');
     }
   },
 
-  // ── PATIENTS ─────────────────────────────────────────────
+  // â”€â”€ PATIENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   patients:{
     render(){
       let patients=DB.get('patients')||[];
@@ -1047,7 +1137,7 @@ const App = {
       if(filterW)patients=patients.filter(p=>p.ward===filterW);
       const grid=document.getElementById('patient-grid');
       if(!grid)return;
-      if(patients.length===0){grid.innerHTML='<div class="empty-state"><div class="empty-icon">👥</div><p>No patients found</p></div>';return;}
+      if(patients.length===0){grid.innerHTML='<div class="empty-state"><div class="empty-icon">ðŸ‘¥</div><p>No patients found</p></div>';return;}
       grid.innerHTML=patients.map(p=>this.cardHTML(p)).join('');
       grid.querySelectorAll('.patient-card').forEach(el=>{
         el.addEventListener('click',()=>App.modal.openPatient(el.dataset.id));
@@ -1066,7 +1156,7 @@ const App = {
           <div class="patient-avatar" style="background:${p.color}22;color:${p.color}">${p.name.split(' ').map(n=>n[0]).join('')}</div>
           <div class="patient-info" style="flex:1">
             <h4>${p.name}</h4>
-            <p>${p.age}y · ${p.gender} · ${p.ward}</p>
+            <p>${p.age}y Â· ${p.gender} Â· ${p.ward}</p>
             <p style="margin-top:.1rem">${p.condition}</p>
           </div>
           <span class="badge ${badgeCls}">${p.priority}</span>
@@ -1076,14 +1166,14 @@ const App = {
           <div class="vital-item"><div class="vital-val ${vsSpo2}">${p.vitals.spo2}%</div><div class="vital-lbl">SpO2</div></div>
           <div class="vital-item"><div class="vital-val ${vsSbp}">${p.vitals.sbp}/${p.vitals.dbp}</div><div class="vital-lbl">BP mmHg</div></div>
           <div class="vital-item"><div class="vital-val">${p.vitals.rr}</div><div class="vital-lbl">RR /min</div></div>
-          <div class="vital-item"><div class="vital-val">${p.vitals.temp}°</div><div class="vital-lbl">Temp °C</div></div>
+          <div class="vital-item"><div class="vital-val">${p.vitals.temp}Â°</div><div class="vital-lbl">Temp Â°C</div></div>
           <div class="vital-item"><div class="vital-val">${p.vitals.glucose}</div><div class="vital-lbl">Glucose</div></div>
         </div>
         ${alertCount>0||warnCount>0?`<div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">
-          ${alertCount>0?`<span class="chip" style="border-color:#ef4444;color:#fca5a5">🚨 ${alertCount} alert${alertCount>1?'s':''}</span>`:''}
-          ${warnCount>0?`<span class="chip" style="border-color:#f59e0b;color:#fde68a">⚠️ ${warnCount} warn${warnCount>1?'s':''}</span>`:''}
+          ${alertCount>0?`<span class="chip" style="border-color:#ef4444;color:#fca5a5">ðŸš¨ ${alertCount} alert${alertCount>1?'s':''}</span>`:''}
+          ${warnCount>0?`<span class="chip" style="border-color:#f59e0b;color:#fde68a">âš ï¸ ${warnCount} warn${warnCount>1?'s':''}</span>`:''}
         </div>`:''}
-        <div style="margin-top:.5rem;font-size:.7rem;color:#475569">📱 ${p.device} · SQ: ${(p.vitals.signalQ*100).toFixed(0)}%</div>
+        <div style="margin-top:.5rem;font-size:.7rem;color:#475569">ðŸ“± ${p.device} Â· SQ: ${(p.vitals.signalQ*100).toFixed(0)}%</div>
       </div>`;
     },
     openAddForm(){
@@ -1112,7 +1202,7 @@ const App = {
       if(!age||age<1||age>120)errors.push('Age must be between 1 and 120.');
       if(errors.length){errEl.style.display='block';errEl.innerHTML=errors.join('<br>');return;}
       errEl.style.display='none';
-      // read vitals — fall back to generated defaults if blank
+      // read vitals â€” fall back to generated defaults if blank
       const sev=Gen.pick(['normal','elevated']);
       const dv=Gen.vitals(sev);
       const numField=(id,def,min,max)=>{const v=parseFloat(document.getElementById(id)?.value);return(!isNaN(v)&&v>=min&&v<=max)?v:def;};
@@ -1158,11 +1248,11 @@ const App = {
       this.render();
       App.updateBadges();
       App.dashboard.render();
-      App.toast(`${p.name} added — priority: ${priority}`,'success');
+      App.toast(`${p.name} added â€” priority: ${priority}`,'success');
     }
   },
 
-  // ── AI AGENTS ────────────────────────────────────────────
+  // â”€â”€ AI AGENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   agents:{
     renderPatientList(agentKey){
       const patients=DB.get('patients')||[];
@@ -1201,7 +1291,7 @@ const App = {
       const p=this.getSelected('wearable');
       if(!p){App.toast('Please select a patient first','warning');return;}
       const out=document.getElementById('wearable-output');
-      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem;margin-bottom:.5rem">⌚</div>Analysing wearable stream…</div>';
+      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem;margin-bottom:.5rem">âŒš</div>Analysing wearable streamâ€¦</div>';
       setTimeout(()=>{
         const obs=DB.get('observations')||[];
         const pObs=obs.filter(o=>o.patientId===p.id).slice(-10);
@@ -1211,17 +1301,17 @@ const App = {
         App.saveAgentResult(results);
         Audit.add('Wearable Agent',`Completed analysis for ${p.name}. ${flags.length} flags, ${arts.length} artefacts.`,'info');
         out.innerHTML=`
-          <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED OUTPUT — Not for clinical use</div>
+          <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED OUTPUT â€” Not for clinical use</div>
           <div class="agent-output">
-            <div style="margin-bottom:.75rem"><strong>Patient:</strong> ${p.name} · ${p.age}y · ${p.ward}<br>
+            <div style="margin-bottom:.75rem"><strong>Patient:</strong> ${p.name} Â· ${p.age}y Â· ${p.ward}<br>
             <strong>Device:</strong> ${p.device}<br>
             <strong>Signal Quality:</strong> ${(p.vitals.signalQ*100).toFixed(0)}%<br>
             <strong>Observations analysed:</strong> ${pObs.length} readings over last window</div>
-            <div style="margin-bottom:.5rem"><strong>📊 Current Readings:</strong></div>
-            ${[['Heart Rate',p.vitals.hr,'bpm'],['SpO2',p.vitals.spo2,'%'],['BP',`${p.vitals.sbp}/${p.vitals.dbp}`,'mmHg'],['Resp Rate',p.vitals.rr,'/min'],['Temperature',p.vitals.temp,'°C'],['Glucose',p.vitals.glucose,'mg/dL'],['HRV',p.vitals.hrv,'ms'],['Stress Index',p.vitals.stress,'%']].map(([lbl,val,unit])=>`<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #1e2535;font-size:.8rem"><span style="color:#94a3b8">${lbl}</span><span style="color:#e2e8f0;font-weight:600">${val} <span style="color:#475569;font-weight:400">${unit}</span></span></div>`).join('')}
-            <div style="margin-top:.75rem"><strong>🚩 Flags (${flags.length}):</strong></div>
-            ${flags.length?flags.map(f=>`<div class="finding ${f.type}">${f.msg}</div>`).join(''):'<div class="finding ok">No flags — all readings within reference ranges</div>'}
-            ${arts.length?`<div style="margin-top:.75rem"><strong>📡 Artefacts (${arts.length}):</strong></div>${arts.map(a=>`<div class="finding warn"><strong>${a.type}:</strong> ${a.msg}</div>`).join('')}`:''}
+            <div style="margin-bottom:.5rem"><strong>ðŸ“Š Current Readings:</strong></div>
+            ${[['Heart Rate',p.vitals.hr,'bpm'],['SpO2',p.vitals.spo2,'%'],['BP',`${p.vitals.sbp}/${p.vitals.dbp}`,'mmHg'],['Resp Rate',p.vitals.rr,'/min'],['Temperature',p.vitals.temp,'Â°C'],['Glucose',p.vitals.glucose,'mg/dL'],['HRV',p.vitals.hrv,'ms'],['Stress Index',p.vitals.stress,'%']].map(([lbl,val,unit])=>`<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #dde5ed;font-size:.8rem"><span style="color:#475569">${lbl}</span><span style="color:#1e3a4f;font-weight:600">${val} <span style="color:#475569;font-weight:400">${unit}</span></span></div>`).join('')}
+            <div style="margin-top:.75rem"><strong>ðŸš© Flags (${flags.length}):</strong></div>
+            ${flags.length?flags.map(f=>`<div class="finding ${f.type}">${f.msg}</div>`).join(''):'<div class="finding ok">No flags â€” all readings within reference ranges</div>'}
+            ${arts.length?`<div style="margin-top:.75rem"><strong>ðŸ“¡ Artefacts (${arts.length}):</strong></div>${arts.map(a=>`<div class="finding warn"><strong>${a.type}:</strong> ${a.msg}</div>`).join('')}`:''}
           </div>`;
         App.toast(`Wearable agent completed for ${p.name}`,'success');
         App.updateBadges();
@@ -1232,7 +1322,7 @@ const App = {
       const p=this.getSelected('signal');
       if(!p){App.toast('Please select a patient first','warning');return;}
       const out=document.getElementById('signal-output');
-      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">📶</div>Assessing signal…</div>';
+      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">ðŸ“¶</div>Assessing signalâ€¦</div>';
       setTimeout(()=>{
         const sq=p.vitals.signalQ;
         const arts=Rules.signalArtefacts(sq);
@@ -1241,18 +1331,18 @@ const App = {
         const sqLabel=sq>=0.85?'Excellent':sq>=0.7?'Acceptable':sq>=0.5?'Degraded':'Poor';
         Audit.add('Signal Quality Agent',`Signal quality ${sqPct}% (${sqLabel}) for ${p.name}. ${arts.length} artefacts detected.`,sq<0.7?'warn':'info');
         out.innerHTML=`
-          <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED OUTPUT</div>
+          <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED OUTPUT</div>
           <div style="margin-bottom:1rem">
-            <div class="label-row"><span>Overall Signal Quality</span><span style="color:${sqColor};font-weight:700">${sqPct}% — ${sqLabel}</span></div>
+            <div class="label-row"><span>Overall Signal Quality</span><span style="color:${sqColor};font-weight:700">${sqPct}% â€” ${sqLabel}</span></div>
             <div class="progress-bar"><div class="progress-fill" style="width:${sqPct}%;background:${sqColor}"></div></div>
           </div>
           ${[['ECG/HR Signal',Math.min(100,Math.round(sq*100+Math.random()*10-5))],['SpO2 Photoplethysmography',Math.min(100,Math.round(sq*95+Math.random()*8))],['Accelerometer',Math.min(100,Math.round(sq*90+Math.random()*12))],['Skin Temperature',Math.min(100,Math.round(sq*98+Math.random()*5))],['Impedance Pneumography',Math.min(100,Math.round(sq*85+Math.random()*10))]].map(([lbl,v])=>{
             const c=v>=85?'green':v>=70?'yellow':v>=50?'orange':'red';
-            return`<div style="margin-bottom:.6rem"><div class="label-row"><span style="font-size:.78rem;color:#94a3b8">${lbl}</span><span style="font-size:.78rem;color:#e2e8f0">${v}%</span></div><div class="progress-bar"><div class="progress-fill ${c}" style="width:${v}%"></div></div></div>`;
+            return`<div style="margin-bottom:.6rem"><div class="label-row"><span style="font-size:.78rem;color:#475569">${lbl}</span><span style="font-size:.78rem;color:#1e3a4f">${v}%</span></div><div class="progress-bar"><div class="progress-fill ${c}" style="width:${v}%"></div></div></div>`;
           }).join('')}
           <div style="margin-top:.75rem"><strong style="font-size:.8rem">Artefact Report:</strong></div>
           ${arts.length?arts.map(a=>`<div class="finding ${a.severity==='high'?'alert':'warn'}"><strong>${a.type} [${a.severity.toUpperCase()}]:</strong> ${a.msg}</div>`).join(''):'<div class="finding ok">No artefacts detected. Signal integrity is good.</div>'}
-          <div class="finding info" style="margin-top:.5rem">ℹ️ Signal quality assessment is simulated. Actual device firmware and clinical-grade algorithms are required for production use.</div>`;
+          <div class="finding info" style="margin-top:.5rem">â„¹ï¸ Signal quality assessment is simulated. Actual device firmware and clinical-grade algorithms are required for production use.</div>`;
         App.toast(`Signal quality assessed for ${p.name}`,'success');
       },700);
     },
@@ -1261,24 +1351,24 @@ const App = {
       const p=this.getSelected('pattern');
       if(!p){App.toast('Please select a patient first','warning');return;}
       const out=document.getElementById('pattern-output');
-      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">🔍</div>Analysing patterns…</div>';
+      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">ðŸ”</div>Analysing patternsâ€¦</div>';
       const obs=DB.get('observations')||[];
       const pObs=obs.filter(o=>o.patientId===p.id).sort((a,b)=>new Date(a.ts)-new Date(b.ts));
       if(pObs.length>2){
         const labels=pObs.map(o=>{const d=new Date(o.ts);return`${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;});
         setTimeout(()=>Chart.line('chart-patient-vitals',labels,[
-          {label:'HR',data:pObs.map(o=>o.hr),color:'#ef4444'},
-          {label:'SpO2',data:pObs.map(o=>o.spo2),color:'#3b82f6'},
-          {label:'RR',data:pObs.map(o=>o.rr),color:'#22c55e'}
+          {label:'HR',data:pObs.map(o=>o.hr),color:'#dc2626'},
+          {label:'SpO2',data:pObs.map(o=>o.spo2),color:'#0891b2'},
+          {label:'RR',data:pObs.map(o=>o.rr),color:'#16a34a'}
         ]),200);
       }
       setTimeout(()=>{
         const patterns=Rules.patterns(pObs);
         Audit.add('Pattern Analysis Agent',`${patterns.length} pattern(s) identified for ${p.name}`,'info');
         out.innerHTML=`
-          <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED OUTPUT</div>
-          <div style="margin-bottom:.5rem;font-size:.8rem;color:#64748b">${pObs.length} observations analysed · 24-hour window</div>
-          ${patterns.map(pt=>`<div class="finding ${pt.type}">🔍 ${pt.msg}</div>`).join('')}
+          <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED OUTPUT</div>
+          <div style="margin-bottom:.5rem;font-size:.8rem;color:#64748b">${pObs.length} observations analysed Â· 24-hour window</div>
+          ${patterns.map(pt=>`<div class="finding ${pt.type}">ðŸ” ${pt.msg}</div>`).join('')}
           <div class="finding info" style="margin-top:.5rem">Educational Reference: Pattern detection follows NEWS2 and MEWS escalation criteria. Waveform analysis uses simulated signal processing.</div>`;
         App.toast(`Pattern analysis complete for ${p.name}`,'success');
       },900);
@@ -1300,14 +1390,14 @@ const App = {
       Audit.add('Triage Agent',`Triage run on ${patients.length} patients. Results queued for human approval.`,'info');
       App.triage.render();
       App.updateBadges();
-      App.toast(`Triage completed for ${patients.length} patients — pending human review`,'success');
+      App.toast(`Triage completed for ${patients.length} patients â€” pending human review`,'success');
     },
 
     runIntervention(){
       const p=this.getSelected('intervention');
       if(!p){App.toast('Please select a patient first','warning');return;}
       const out=document.getElementById('intervention-output');
-      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">💊</div>Generating plan…</div>';
+      out.innerHTML='<div style="text-align:center;padding:2rem;color:#64748b"><div style="font-size:1.5rem">ðŸ’Š</div>Generating planâ€¦</div>';
       setTimeout(()=>{
         const flags=Rules.evaluateVitals(p.vitals);
         const plans=Rules.interventions(p,flags,p.priority);
@@ -1315,17 +1405,17 @@ const App = {
         App.queueApproval(p,'intervention',{plans});
         const urgencyColor={URGENT:'#ef4444',ROUTINE:'#22c55e'};
         out.innerHTML=`
-          <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED OUTPUT — Requires authorised professional review before any clinical action</div>
-          <div style="margin-bottom:.75rem;font-size:.8rem;color:#64748b">Patient: <strong style="color:#e2e8f0">${p.name}</strong> · Priority: <span class="badge badge-${p.priority}">${p.priority}</span></div>
+          <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED OUTPUT â€” Requires authorised professional review before any clinical action</div>
+          <div style="margin-bottom:.75rem;font-size:.8rem;color:#64748b">Patient: <strong style="color:#1e3a4f">${p.name}</strong> Â· Priority: <span class="badge badge-${p.priority}">${p.priority}</span></div>
           ${plans.map((pl,i)=>`<div class="card" style="margin-bottom:.5rem;padding:.75rem">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.4rem">
-              <div style="font-size:.82rem;font-weight:600;color:#e2e8f0">${i+1}. ${pl.action}</div>
+              <div style="font-size:.82rem;font-weight:600;color:#1e3a4f">${i+1}. ${pl.action}</div>
               <span style="font-size:.7rem;font-weight:700;color:${urgencyColor[pl.urgency]||'#94a3b8'};flex-shrink:0;margin-left:.5rem">${pl.urgency}</span>
             </div>
             <div style="font-size:.72rem;color:#64748b;margin-bottom:.3rem">Category: ${pl.category}</div>
-            <div style="font-size:.75rem;color:#94a3b8;background:#0f1117;border-radius:5px;padding:.4rem .6rem">${pl.rationale}</div>
+            <div style="font-size:.75rem;color:#94a3b8;background:#f7fafc;border:1px solid #dde5ed;border-radius:5px;padding:.4rem .6rem">${pl.rationale}</div>
           </div>`).join('')}
-          <div class="finding info" style="margin-top:.5rem">ℹ️ All suggestions are queued for human review. A qualified clinician must authorise any clinical action.</div>`;
+          <div class="finding info" style="margin-top:.5rem">â„¹ï¸ All suggestions are queued for human review. A qualified clinician must authorise any clinical action.</div>`;
         App.toast(`Intervention plan for ${p.name} queued for review`,'success');
         App.updateBadges();
       },1000);
@@ -1343,7 +1433,7 @@ const App = {
     runAll(){
       const patients=DB.get('patients')||[];
       if(patients.length===0){App.toast('No patients loaded. Add some first.','warning');return;}
-      App.toast('Running all agents…','info');
+      App.toast('Running all agentsâ€¦','info');
       setTimeout(()=>{this.runTriageAll();},300);
       setTimeout(()=>{this.runEscalation();},600);
       Audit.add('Run All','All agents executed in sequence','info');
@@ -1352,7 +1442,7 @@ const App = {
     }
   },
 
-  // ── TRIAGE ───────────────────────────────────────────────
+  // â”€â”€ TRIAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   triage:{
     render(){
       const patients=DB.get('patients')||[];
@@ -1361,7 +1451,7 @@ const App = {
       if(filter)sorted=sorted.filter(p=>p.priority===filter);
       const list=document.getElementById('triage-list');
       if(!list)return;
-      if(sorted.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon">✅</div><p>No patients at this priority level</p></div>';return;}
+      if(sorted.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon">âœ…</div><p>No patients at this priority level</p></div>';return;}
       list.innerHTML=sorted.map(p=>{
         const flags=Rules.evaluateVitals(p.vitals);
         const score=Rules.triageScore(p.vitals,flags);
@@ -1376,7 +1466,7 @@ const App = {
                 <span class="chip">Acuity Score: ${score}</span>
                 <span class="chip">NEWS2: ${news}</span>
               </div>
-              <div style="font-size:.75rem;color:#64748b;margin-top:.2rem">${p.age}y · ${p.ward} · ${p.condition}</div>
+              <div style="font-size:.75rem;color:#64748b;margin-top:.2rem">${p.age}y Â· ${p.ward} Â· ${p.condition}</div>
               <div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.4rem">
                 ${flags.slice(0,4).map(f=>`<span class="chip" style="border-color:${f.type==='alert'?'#ef4444':'#f59e0b'};color:${f.type==='alert'?'#fca5a5':'#fde68a'}">${f.msg.split(':')[0]}</span>`).join('')}
                 ${flags.length>4?`<span class="chip">+${flags.length-4} more</span>`:''}
@@ -1405,28 +1495,28 @@ const App = {
     }
   },
 
-  // ── ESCALATION ───────────────────────────────────────────
+  // â”€â”€ ESCALATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   escalation:{
     _list:[],
     setList(pts){this._list=pts;this.render();},
     render(){
       const list=document.getElementById('escalation-list');
       if(!list)return;
-      if(this._list.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon">✅</div><p>No current escalations. Click "Scan for Escalations" to check.</p></div>';return;}
+      if(this._list.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon">âœ…</div><p>No current escalations. Click "Scan for Escalations" to check.</p></div>';return;}
       list.innerHTML=this._list.map(p=>{
         const flags=Rules.evaluateVitals(p.vitals);
         return`<div class="card priority-${p.priority}" style="margin-bottom:.65rem;border-left:4px solid #ef4444">
           <div style="display:flex;align-items:flex-start;gap:.75rem">
-            <div style="font-size:2rem">🚨</div>
+            <div style="font-size:2rem">ðŸš¨</div>
             <div style="flex:1">
               <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem">
                 <strong>${p.name}</strong><span class="badge badge-${p.priority}">${p.priority.toUpperCase()}</span>
                 <span class="chip">NEWS2: ${App.triage.calcNEWS2(p.vitals)}</span>
               </div>
-              <div style="font-size:.75rem;color:#64748b">${p.ward} · ${p.condition} · ${p.age}y · ${p.gender}</div>
+              <div style="font-size:.75rem;color:#64748b">${p.ward} Â· ${p.condition} Â· ${p.age}y Â· ${p.gender}</div>
               <div style="margin-top:.5rem">${flags.filter(f=>f.type==='alert').map(f=>`<div class="finding alert">${f.msg}</div>`).join('')}</div>
               <div style="margin-top:.5rem;font-size:.75rem;color:#fde68a;background:#1c1108;border-radius:6px;padding:.4rem .6rem">
-                ⬆️ Escalation recommended: Immediate bedside review and senior clinician notification as per local escalation protocol.
+                â¬†ï¸ Escalation recommended: Immediate bedside review and senior clinician notification as per local escalation protocol.
               </div>
             </div>
             <div style="flex-shrink:0">
@@ -1438,7 +1528,7 @@ const App = {
     }
   },
 
-  // ── APPROVAL ─────────────────────────────────────────────
+  // â”€â”€ APPROVAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   approval:{
     showTab(tab,el){
       App.state.approvalTab=tab;
@@ -1458,11 +1548,11 @@ const App = {
       document.getElementById('rejected-count').textContent=rejected;
       const list=document.getElementById('approval-list');
       if(!list)return;
-      if(filtered.length===0){list.innerHTML=`<div class="empty-state"><div class="empty-icon">${tab==='pending'?'⏳':tab==='approved'?'✅':'❌'}</div><p>No ${tab} items</p></div>`;return;}
+      if(filtered.length===0){list.innerHTML=`<div class="empty-state"><div class="empty-icon">${tab==='pending'?'â³':tab==='approved'?'âœ…':'âŒ'}</div><p>No ${tab} items</p></div>`;return;}
       list.innerHTML=filtered.map(a=>`
         <div class="card priority-${a.priority||'medium'}" style="margin-bottom:.65rem">
           <div style="display:flex;align-items:flex-start;gap:.75rem">
-            <div style="font-size:1.5rem">${a.type==='triage'?'🚨':'💊'}</div>
+            <div style="font-size:1.5rem">${a.type==='triage'?'ðŸš¨':'ðŸ’Š'}</div>
             <div style="flex:1">
               <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.3rem">
                 <strong style="font-size:.88rem">${a.patientName}</strong>
@@ -1470,14 +1560,14 @@ const App = {
                 <span class="chip">${a.type==='triage'?'Triage Decision':'Intervention Plan'}</span>
                 <span class="badge badge-${a.status==='pending'?'info':a.status==='approved'?'low':'critical'}">${a.status.toUpperCase()}</span>
               </div>
-              <div style="font-size:.75rem;color:#64748b">${new Date(a.ts).toLocaleString()} · ${a.ward}</div>
-              <div style="margin-top:.5rem;font-size:.78rem;color:#94a3b8">${a.type==='triage'?`Acuity score: <strong style="color:#e2e8f0">${a.data?.score||'—'}</strong> → Priority: <strong style="color:#e2e8f0">${a.data?.priority||'—'}</strong>`:`${(a.data?.plans||[]).length} suggested interventions`}</div>
-              ${a.reviewNote?`<div style="margin-top:.4rem;font-size:.75rem;background:#0f1117;border-radius:5px;padding:.35rem .6rem;color:#94a3b8"><strong>Review note:</strong> ${a.reviewNote}</div>`:''}
+              <div style="font-size:.75rem;color:#64748b">${new Date(a.ts).toLocaleString()} Â· ${a.ward}</div>
+              <div style="margin-top:.5rem;font-size:.78rem;color:#475569">${a.type==='triage'?`Acuity score: <strong style="color:#1e3a4f">${a.data?.score||'â€”'}</strong> â†’ Priority: <strong style="color:#1e3a4f">${a.data?.priority||'â€”'}</strong>`:`${(a.data?.plans||[]).length} suggested interventions`}</div>
+              ${a.reviewNote?`<div style="margin-top:.4rem;font-size:.75rem;background:#f7fafc;border:1px solid #dde5ed;border-radius:5px;padding:.35rem .6rem;color:#475569"><strong>Review note:</strong> ${a.reviewNote}</div>`:''}
             </div>
             <div style="flex-shrink:0;display:flex;flex-direction:column;gap:.3rem">
               ${a.status==='pending'?`<button class="btn btn-primary btn-xs" onclick="App.approval.openReview('${a.id}')">Review</button>`:''}
-              ${a.status==='approved'?'<span style="color:#22c55e;font-size:.8rem">✅ Approved</span>':''}
-              ${a.status==='rejected'?'<span style="color:#ef4444;font-size:.8rem">❌ Rejected</span>':''}
+              ${a.status==='approved'?'<span style="color:#22c55e;font-size:.8rem">âœ… Approved</span>':''}
+              ${a.status==='rejected'?'<span style="color:#ef4444;font-size:.8rem">âŒ Rejected</span>':''}
             </div>
           </div>
         </div>`).join('');
@@ -1488,12 +1578,12 @@ const App = {
       if(!a)return;
       document.getElementById('modal-approval-body').innerHTML=`
         <div class="disclaimer" style="margin-bottom:1rem">You are reviewing a simulated AI recommendation. Approving or rejecting does not trigger any real clinical action.</div>
-        <div style="margin-bottom:.75rem"><strong>${a.patientName}</strong> · ${a.ward}<br><span class="badge badge-${a.priority}">${a.priority}</span> · ${a.type}</div>
-        ${a.type==='triage'?`<div class="finding info">Simulated triage score: <strong>${a.data?.score}</strong> → Priority: <strong>${a.data?.priority}</strong></div>`:''}
+        <div style="margin-bottom:.75rem"><strong>${a.patientName}</strong> Â· ${a.ward}<br><span class="badge badge-${a.priority}">${a.priority}</span> Â· ${a.type}</div>
+        ${a.type==='triage'?`<div class="finding info">Simulated triage score: <strong>${a.data?.score}</strong> â†’ Priority: <strong>${a.data?.priority}</strong></div>`:''}
         ${a.type==='intervention'?(a.data?.plans||[]).map(pl=>`<div class="finding info" style="margin-bottom:.35rem"><strong>[${pl.urgency}] ${pl.action}</strong><br><span style="font-size:.73rem">${pl.rationale}</span></div>`).join(''):''}
         <div class="form-group" style="margin-top:1rem">
           <label class="form-label">Review Note (optional)</label>
-          <textarea class="form-control" id="review-note-input" rows="2" placeholder="Add a review note…"></textarea>
+          <textarea class="form-control" id="review-note-input" rows="2" placeholder="Add a review noteâ€¦"></textarea>
         </div>`;
       document.getElementById('modal-approve-btn').onclick=()=>App.approval.decide(id,'approved');
       document.getElementById('modal-reject-btn').onclick=()=>App.approval.decide(id,'rejected');
@@ -1505,7 +1595,7 @@ const App = {
       const a=approvals.find(x=>x.id===id);
       if(a){a.status=status;a.reviewNote=note;a.reviewedAt=Gen.ts();}
       DB.set('approvals',approvals);
-      Audit.add('Human Review',`${status.toUpperCase()}: ${a?.type} for ${a?.patientName}${note?` · Note: ${note}`:''}`,status==='approved'?'info':'warn');
+      Audit.add('Human Review',`${status.toUpperCase()}: ${a?.type} for ${a?.patientName}${note?` Â· Note: ${note}`:''}`,status==='approved'?'info':'warn');
       App.modal.close('modal-approval');
       App.approval.render();
       App.updateBadges();
@@ -1513,7 +1603,7 @@ const App = {
     }
   },
 
-  // ── REPORTS ──────────────────────────────────────────────
+  // â”€â”€ REPORTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   reports:{
     generate(){
       const patients=DB.get('patients')||[];
@@ -1527,23 +1617,23 @@ const App = {
       const rejected=approvals.filter(a=>a.status==='rejected').length;
       Audit.add('Report Generated',`Summary report generated at ${now}`,'info');
       document.getElementById('report-output').innerHTML=`
-        <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED REPORT — Not for clinical use</div>
+        <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED REPORT â€” Not for clinical use</div>
         <div style="font-size:.82rem;color:#64748b;margin-bottom:.75rem">Generated: ${now}</div>
-        <div class="finding info" style="margin-bottom:.5rem"><strong>Monitoring Summary</strong><br>Total patients: ${patients.length} · Critical: ${critical} · High: ${high} · Other: ${patients.length-critical-high}</div>
-        <div class="finding ${pending>0?'warn':'ok'}" style="margin-bottom:.5rem"><strong>Approval Queue</strong><br>Pending: ${pending} · Approved: ${approved} · Rejected: ${rejected}</div>
+        <div class="finding info" style="margin-bottom:.5rem"><strong>Monitoring Summary</strong><br>Total patients: ${patients.length} Â· Critical: ${critical} Â· High: ${high} Â· Other: ${patients.length-critical-high}</div>
+        <div class="finding ${pending>0?'warn':'ok'}" style="margin-bottom:.5rem"><strong>Approval Queue</strong><br>Pending: ${pending} Â· Approved: ${approved} Â· Rejected: ${rejected}</div>
         <div style="margin:1rem 0 .5rem"><strong style="font-size:.82rem">Patient Roster:</strong></div>
         ${patients.map(p=>{
           const flags=Rules.evaluateVitals(p.vitals);
           const score=Rules.triageScore(p.vitals,flags);
-          return`<div style="display:flex;align-items:center;gap:.6rem;padding:.35rem 0;border-bottom:1px solid #1e2535;font-size:.78rem">
+          return`<div style="display:flex;align-items:center;gap:.6rem;padding:.35rem 0;border-bottom:1px solid #dde5ed;font-size:.78rem">
             <span class="badge badge-${p.priority}" style="flex-shrink:0">${p.priority[0].toUpperCase()}</span>
-            <span style="flex:1;color:#e2e8f0">${p.name}</span>
+            <span style="flex:1;color:#1e3a4f">${p.name}</span>
             <span style="color:#64748b">${p.ward}</span>
             <span style="color:#64748b">Score: ${score}</span>
             <span style="color:#64748b">Flags: ${flags.length}</span>
           </div>`;
         }).join('')}
-        <div class="finding info" style="margin-top:.75rem">ℹ️ This report is generated from simulated data for demonstration purposes only. All clinical decisions require qualified professional review.</div>`;
+        <div class="finding info" style="margin-top:.75rem">â„¹ï¸ This report is generated from simulated data for demonstration purposes only. All clinical decisions require qualified professional review.</div>`;
     },
     renderAudit(){
       const log=DB.get('auditLog')||[];
@@ -1574,7 +1664,7 @@ const App = {
     }
   },
 
-  // ── SETTINGS ─────────────────────────────────────────────
+  // â”€â”€ SETTINGS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   settings:{
     render(){
       const t=Rules.thresholds;
@@ -1583,7 +1673,7 @@ const App = {
         ['sbp_low','Min SBP (mmHg)','number'],['sbp_high','Max SBP (mmHg)','number'],
         ['spo2_low','Min SpO2 (%)','number'],['spo2_critical','Critical SpO2 (%)','number'],
         ['rr_low','Min RR (/min)','number'],['rr_high','Max RR (/min)','number'],
-        ['temp_low','Min Temp (°C)','number'],['temp_high','Max Temp (°C)','number'],
+        ['temp_low','Min Temp (Â°C)','number'],['temp_high','Max Temp (Â°C)','number'],
         ['glucose_low','Min Glucose (mg/dL)','number'],['glucose_high','Max Glucose (mg/dL)','number']
       ];
       document.getElementById('threshold-form').innerHTML=fields.map(([k,lbl,type])=>`
@@ -1603,7 +1693,7 @@ const App = {
     }
   },
 
-  // ── DATA ──────────────────────────────────────────────────
+  // â”€â”€ DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   data:{
     seedDemo(){
       const patients=Array.from({length:12},()=>Gen.patient());
@@ -1620,7 +1710,7 @@ const App = {
       DB.set('approvals',[]);
       if(!DB.get('auditLog'))DB.set('auditLog',[]);
       Audit.add('Demo Data','Demo patient dataset loaded (12 synthetic patients)','info');
-      App.toast('Demo data loaded — 12 synthetic patients','success');
+      App.toast('Demo data loaded â€” 12 synthetic patients','success');
       App.patients.render();
       App.dashboard.render();
       App.updateBadges();
@@ -1640,7 +1730,7 @@ const App = {
     }
   },
 
-  // ── MODAL ────────────────────────────────────────────────
+  // â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   modal:{
     open(id){document.getElementById(id)?.classList.add('open');},
     close(id){document.getElementById(id)?.classList.remove('open');},
@@ -1651,23 +1741,23 @@ const App = {
       const flags=Rules.evaluateVitals(p.vitals);
       const score=Rules.triageScore(p.vitals,flags);
       const news=App.triage.calcNEWS2(p.vitals);
-      document.getElementById('modal-patient-title').textContent=`${p.name} — ${p.ward}`;
+      document.getElementById('modal-patient-title').textContent=`${p.name} â€” ${p.ward}`;
       document.getElementById('modal-patient-body').innerHTML=`
-        <div class="badge badge-sim" style="margin-bottom:.75rem">⚠️ SIMULATED DATA</div>
+        <div class="badge badge-sim" style="margin-bottom:.75rem">âš ï¸ SIMULATED DATA</div>
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
           <div class="patient-avatar" style="width:50px;height:50px;font-size:1.1rem;background:${p.color}22;color:${p.color}">${p.name.split(' ').map(n=>n[0]).join('')}</div>
           <div>
             <strong style="font-size:.95rem">${p.name}</strong><br>
-            <span style="font-size:.78rem;color:#64748b">${p.age}y · ${p.gender} · ${p.condition}</span><br>
+            <span style="font-size:.78rem;color:#64748b">${p.age}y Â· ${p.gender} Â· ${p.condition}</span><br>
             <span class="badge badge-${p.priority}">${p.priority.toUpperCase()}</span>
             <span class="chip" style="margin-left:.35rem">Acuity: ${score}</span>
             <span class="chip" style="margin-left:.35rem">NEWS2: ${news}</span>
           </div>
         </div>
-        <div style="margin-bottom:.75rem"><strong style="font-size:.8rem">📱 Device:</strong> <span style="font-size:.8rem;color:#94a3b8">${p.device} · Signal: ${(p.vitals.signalQ*100).toFixed(0)}%</span></div>
-        <div style="margin-bottom:.75rem"><strong style="font-size:.8rem">Admitted:</strong> <span style="font-size:.8rem;color:#94a3b8">${new Date(p.admitted).toLocaleString()}</span></div>
+        <div style="margin-bottom:.75rem"><strong style="font-size:.8rem">ðŸ“± Device:</strong> <span style="font-size:.8rem;color:#475569">${p.device} Â· Signal: ${(p.vitals.signalQ*100).toFixed(0)}%</span></div>
+        <div style="margin-bottom:.75rem"><strong style="font-size:.8rem">Admitted:</strong> <span style="font-size:.8rem;color:#475569">${new Date(p.admitted).toLocaleString()}</span></div>
         <div class="vitals-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:.75rem">
-          ${[['HR',p.vitals.hr,'bpm'],['SpO2',p.vitals.spo2,'%'],['SBP',p.vitals.sbp,'mmHg'],['DBP',p.vitals.dbp,'mmHg'],['RR',p.vitals.rr,'/min'],['Temp',p.vitals.temp,'°C'],['Glucose',p.vitals.glucose,'mg/dL'],['HRV',p.vitals.hrv,'ms']].map(([l,v,u])=>`<div class="vital-item"><div class="vital-val">${v}</div><div class="vital-lbl">${l}</div><div class="vital-lbl" style="font-size:.6rem">${u}</div></div>`).join('')}
+          ${[['HR',p.vitals.hr,'bpm'],['SpO2',p.vitals.spo2,'%'],['SBP',p.vitals.sbp,'mmHg'],['DBP',p.vitals.dbp,'mmHg'],['RR',p.vitals.rr,'/min'],['Temp',p.vitals.temp,'Â°C'],['Glucose',p.vitals.glucose,'mg/dL'],['HRV',p.vitals.hrv,'ms']].map(([l,v,u])=>`<div class="vital-item"><div class="vital-val">${v}</div><div class="vital-lbl">${l}</div><div class="vital-lbl" style="font-size:.6rem">${u}</div></div>`).join('')}
         </div>
         <strong style="font-size:.8rem">Clinical Flags (${flags.length}):</strong>
         <div style="margin-top:.35rem">${flags.length?flags.map(f=>`<div class="finding ${f.type}">${f.msg}</div>`).join(''):'<div class="finding ok">No flags</div>'}</div>`;
@@ -1681,7 +1771,7 @@ const App = {
     }
   },
 
-  // ── HELPERS ──────────────────────────────────────────────
+  // â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   queueApproval(p,type,data){
     const approvals=DB.get('approvals')||[];
     // avoid duplicates for same patient+type
@@ -1713,7 +1803,7 @@ const App = {
     const container=document.getElementById('toasts');
     const t=document.createElement('div');
     t.className=`toast ${type}`;
-    t.innerHTML=`<span>${type==='success'?'✅':type==='error'?'❌':type==='warning'?'⚠️':'ℹ️'}</span><span>${msg}</span>`;
+    t.innerHTML=`<span>${type==='success'?'âœ…':type==='error'?'âŒ':type==='warning'?'âš ï¸':'â„¹ï¸'}</span><span>${msg}</span>`;
     container.appendChild(t);
     setTimeout(()=>t.remove(),3500);
   },
@@ -1763,7 +1853,224 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // auto-run agents
   setTimeout(()=>{App.agents.runAll();},1200);
+  // IBM init
+  IBM.init();
 });
+</script>
+
+<script>
+// ============================================================
+// IBM WATSONX AI ENGINE
+// Credentials: stored in localStorage (ah_ibmConfig)
+// Flow: API key → IAM token (POST iam.cloud.ibm.com) → watsonx inference
+// ============================================================
+const IBM = {
+  // Pre-fill from user-provided credentials
+  DEFAULT_KEY: 'ivaMKzHZy-l6qZIakdt6Tu3_gt9FTwPxC3zY-mYg0cam',
+  DEFAULT_PROJECT: '67a0b77e-43fa-4b58-bc6b-516100726089',
+  DEFAULT_MODEL: 'ibm/granite-3-8b-instruct',
+  IAM_URL: 'https://iam.cloud.ibm.com/identity/token',
+  WX_URL: 'https://us-south.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-29',
+
+  cfg: null,   // loaded config
+  token: null, // cached IAM token
+  tokenExpiry: 0,
+
+  init(){
+    const saved = DB.get('ibmConfig');
+    if(saved){
+      this.cfg = saved;
+    } else {
+      // Auto-seed with provided credentials
+      this.cfg = {apiKey:this.DEFAULT_KEY, projectId:this.DEFAULT_PROJECT, model:this.DEFAULT_MODEL};
+      DB.set('ibmConfig', this.cfg);
+    }
+    this.applyToForm();
+    this.updateBadge();
+  },
+
+  applyToForm(){
+    if(!this.cfg) return;
+    const k=document.getElementById('ibm-api-key');
+    const p=document.getElementById('ibm-project-id');
+    const m=document.getElementById('ibm-model');
+    if(k) k.value=this.cfg.apiKey||'';
+    if(p) p.value=this.cfg.projectId||'';
+    if(m) m.value=this.cfg.model||this.DEFAULT_MODEL;
+  },
+
+  save(){
+    const apiKey=(document.getElementById('ibm-api-key')?.value||'').trim();
+    const projectId=(document.getElementById('ibm-project-id')?.value||'').trim();
+    const model=document.getElementById('ibm-model')?.value||this.DEFAULT_MODEL;
+    if(!apiKey||!projectId){App.toast('API Key and Project ID are required','warning');return false;}
+    this.cfg={apiKey,projectId,model};
+    DB.set('ibmConfig',this.cfg);
+    this.token=null; this.tokenExpiry=0;
+    return true;
+  },
+
+  clear(){
+    this.cfg=null; this.token=null; this.tokenExpiry=0;
+    DB.set('ibmConfig',null);
+    ['ibm-api-key','ibm-project-id'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    this.updateBadge();
+    document.getElementById('ibm-conn-status').className='badge badge-gray';
+    document.getElementById('ibm-conn-status').textContent='Not connected';
+    App.toast('IBM credentials cleared','info');
+  },
+
+  updateBadge(){
+    const badge=document.getElementById('ibm-badge');
+    if(badge && this.cfg && this.cfg.apiKey){
+      badge.classList.add('connected');
+    } else if(badge){
+      badge.classList.remove('connected');
+    }
+  },
+
+  async getToken(){
+    const now=Date.now();
+    if(this.token && now < this.tokenExpiry) return this.token;
+    if(!this.cfg?.apiKey) throw new Error('No IBM API key configured');
+    const resp = await fetch(this.IAM_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
+      body:`grant_type=urn%3Aibm%3Aparams%3Aoauth%3Agrant-type%3Aapikey&apikey=${encodeURIComponent(this.cfg.apiKey)}`
+    });
+    if(!resp.ok){
+      const err=await resp.text();
+      throw new Error(`IAM token error ${resp.status}: ${err.substring(0,120)}`);
+    }
+    const data=await resp.json();
+    this.token=data.access_token;
+    this.tokenExpiry=now+(data.expires_in-60)*1000;
+    return this.token;
+  },
+
+  async generate(prompt, maxTokens=600){
+    const token=await this.getToken();
+    const body={
+      model_id: this.cfg?.model || this.DEFAULT_MODEL,
+      input: prompt,
+      parameters:{
+        decoding_method:'greedy',
+        max_new_tokens: maxTokens,
+        min_new_tokens: 20,
+        stop_sequences:['\n\n\n'],
+        repetition_penalty:1.1
+      },
+      project_id: this.cfg?.projectId || this.DEFAULT_PROJECT
+    };
+    const resp=await fetch(this.WX_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
+      body:JSON.stringify(body)
+    });
+    if(!resp.ok){
+      const err=await resp.text();
+      throw new Error(`Watsonx error ${resp.status}: ${err.substring(0,200)}`);
+    }
+    const data=await resp.json();
+    return data.results?.[0]?.generated_text?.trim()||'No response generated.';
+  },
+
+  async saveAndTest(){
+    if(!this.save()) return;
+    const resultEl=document.getElementById('ibm-test-result');
+    const statusEl=document.getElementById('ibm-conn-status');
+    resultEl.innerHTML='<div class="finding info ibm-typing">Testing connection…</div>';
+    statusEl.className='badge badge-info'; statusEl.textContent='Testing…';
+    try{
+      const text=await this.generate('You are a helpful health monitoring AI assistant. In one sentence, confirm you are connected and ready to assist with clinical decision support. Start with: Connection confirmed.',120);
+      resultEl.innerHTML=`<div class="ibm-panel"><div class="ibm-panel-header">🤖 IBM watsonx AI</div><div class="ibm-response">${text}</div></div>`;
+      statusEl.className='badge badge-low'; statusEl.textContent='✅ Connected';
+      this.updateBadge();
+      Audit.add('IBM watsonx','Connection test successful','info');
+      App.toast('IBM watsonx AI connected successfully','success');
+    }catch(e){
+      resultEl.innerHTML=`<div class="finding alert"><strong>Connection failed:</strong> ${e.message}</div>`;
+      statusEl.className='badge badge-critical'; statusEl.textContent='❌ Error';
+      Audit.add('IBM watsonx',`Connection test failed: ${e.message}`,'warn');
+      App.toast('IBM connection failed — check credentials','error');
+    }
+  },
+
+  patientContext(p){
+    if(!p) return '';
+    const flags=Rules.evaluateVitals(p.vitals);
+    const score=Rules.triageScore(p.vitals,flags);
+    return `Patient: ${p.name}, Age: ${p.age}, Gender: ${p.gender}, Ward: ${p.ward}, Condition: ${p.condition}.
+Vital Signs — HR: ${p.vitals.hr} bpm, SpO2: ${p.vitals.spo2}%, BP: ${p.vitals.sbp}/${p.vitals.dbp} mmHg, RR: ${p.vitals.rr}/min, Temp: ${p.vitals.temp}°C, Glucose: ${p.vitals.glucose} mg/dL, HRV: ${p.vitals.hrv} ms.
+Signal Quality: ${(p.vitals.signalQ*100).toFixed(0)}%. Wearable: ${p.device}.
+AI Acuity Score: ${score}/100. Computed Priority: ${p.priority.toUpperCase()}.
+Clinical Flags: ${flags.length>0?flags.map(f=>f.msg).join('; '):'None'}.`;
+  },
+
+  populatePatientSelects(){
+    const patients=DB.get('patients')||[];
+    const opts=patients.map(p=>`<option value="${p.id}">${p.name} (${p.ward} · ${p.priority})</option>`).join('');
+    ['ibm-chat-patient','ibm-agent-patient'].forEach(id=>{
+      const el=document.getElementById(id);if(el)el.innerHTML=opts;
+    });
+    this.applyToForm();
+  },
+
+  async chat(){
+    if(!this.cfg?.apiKey){App.toast('Please save IBM credentials first','warning');return;}
+    const patients=DB.get('patients')||[];
+    const pid=document.getElementById('ibm-chat-patient')?.value;
+    const p=patients.find(x=>x.id===pid);
+    const question=(document.getElementById('ibm-chat-input')?.value||'').trim();
+    if(!question){App.toast('Please enter a question','warning');return;}
+    const outEl=document.getElementById('ibm-chat-output');
+    outEl.innerHTML='<div class="ibm-panel"><div class="ibm-panel-header">🤖 IBM watsonx AI</div><div class="ibm-response ibm-typing">Thinking…</div></div>';
+    const context=p?`\nPATIENT CONTEXT:\n${this.patientContext(p)}\n`:'';
+    const systemPrompt=`You are an AI clinical decision support assistant for a hospital wearable health monitoring system. You provide evidence-based, educational health monitoring insights. You must always remind users that your outputs are AI-generated and require qualified healthcare professional review. You do not diagnose or prescribe.`;
+    const prompt=`${systemPrompt}${context}\nQuestion: ${question}\n\nAnswer (be concise, factual, and include a safety disclaimer):`;
+    try{
+      const text=await this.generate(prompt,500);
+      outEl.innerHTML=`<div class="ibm-panel"><div class="ibm-panel-header">🤖 IBM watsonx AI Response <span class="badge badge-ibm" style="margin-left:.4rem">LIVE AI</span></div><div class="ibm-response">${text}</div></div>`;
+      Audit.add('IBM AI Chat',`AI response for ${p?p.name:'general query'}. Q: ${question.substring(0,60)}…`,'info');
+    }catch(e){
+      outEl.innerHTML=`<div class="finding alert"><strong>Error:</strong> ${e.message}</div>`;
+      Audit.add('IBM AI Chat',`Error: ${e.message}`,'warn');
+    }
+  },
+
+  async runAgentAssist(){
+    if(!this.cfg?.apiKey){App.toast('Please save IBM credentials first','warning');return;}
+    const patients=DB.get('patients')||[];
+    const pid=document.getElementById('ibm-agent-patient')?.value;
+    const p=patients.find(x=>x.id===pid);
+    if(!p){App.toast('Please select a patient','warning');return;}
+    const outEl=document.getElementById('ibm-agent-output');
+    outEl.innerHTML='<div class="ibm-panel"><div class="ibm-panel-header">🤖 IBM watsonx Running Full Analysis…</div><div class="ibm-response ibm-typing">Analysing all agent outputs…</div></div>';
+    const ctx=this.patientContext(p);
+    const agents=[
+      {name:'Wearable Data Analysis',prompt:`${ctx}\n\nAs a wearable data analysis AI, summarise the key wearable sensor findings for this patient. Identify the most clinically significant readings. Include a safety disclaimer.`},
+      {name:'Signal Quality Assessment',prompt:`${ctx}\n\nAs a signal quality AI, assess the wearable signal quality (${(p.vitals.signalQ*100).toFixed(0)}%) and list any data reliability concerns that may affect clinical interpretation.`},
+      {name:'Pattern Analysis',prompt:`${ctx}\n\nAs a clinical pattern analysis AI, identify any notable vital sign patterns, trends, or anomalies for this patient based on the data provided.`},
+      {name:'Triage Priority',prompt:`${ctx}\n\nAs a triage AI, justify the computed priority (${p.priority.toUpperCase()}, Acuity Score) for this patient using the NEWS2 framework. What monitoring frequency would be appropriate?`},
+      {name:'Intervention Planning',prompt:`${ctx}\n\nAs an intervention planning AI, suggest evidence-based monitoring and care considerations for this patient. Reference clinical guidelines where appropriate. Include disclaimer about professional review.`},
+    ];
+    const results=[];
+    for(const a of agents){
+      try{
+        const text=await this.generate(a.prompt,350);
+        results.push({name:a.name,text,ok:true});
+      }catch(e){
+        results.push({name:a.name,text:`Error: ${e.message}`,ok:false});
+      }
+    }
+    outEl.innerHTML=`<div class="finding info" style="margin-bottom:.75rem">IBM watsonx AI Full Analysis for <strong>${p.name}</strong> · ${p.ward} · Priority: <span class="badge badge-${p.priority}">${p.priority}</span></div>`+
+      results.map(r=>`<div class="ibm-panel" style="margin-bottom:.75rem"><div class="ibm-panel-header">🤖 ${r.name} Agent ${r.ok?'<span class="badge badge-ibm">LIVE AI</span>':'<span class="badge badge-critical">ERROR</span>'}</div><div class="ibm-response">${r.text}</div></div>`).join('')+
+      `<div class="finding warn">⚠️ All AI outputs are generated by IBM watsonx and are for educational and decision-support purposes only. They require review by a qualified healthcare professional before any clinical action is taken.</div>`;
+    Audit.add('IBM Agent Assist',`Full AI analysis completed for ${p.name} across ${results.length} agents`,'info');
+    App.toast(`Full AI analysis complete for ${p.name}`,'success');
+  }
+};
 </script>
 </body>
 </html>
+
